@@ -1,0 +1,8 @@
+// 20190117110420
+// https://raw.githubusercontent.com/xunit/xunit/d321bb572abf9027e3762848068b3e9eea2458f2/test/xunit.runner.json
+
+{
+  "diagnosticMessages": true,
+  "methodDisplay": "classAndMethod",
+  "parallelizeAssembly": true
+}
