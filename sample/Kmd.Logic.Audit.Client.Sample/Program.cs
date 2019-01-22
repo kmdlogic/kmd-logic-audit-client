@@ -11,6 +11,7 @@ namespace Kmd.Logic.Audit.Client.Sample
         {
             var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
+
                 // Without *some* values in the config, we get a null instance of `ProgramConfig`
                 // however if we ensure at least one value is in the config collection, then we get
                 // an instance, no matter what the key/value is.
