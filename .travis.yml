@@ -9,6 +9,8 @@ matrix:
   include:
     - os: osx
       osx_image: xcode10.1
+      # Ref: https://docs.travis-ci.com/user/reference/osx
+      dotnet: 2.2.103 # For OSX, we need absolute dotnet version until https://github.com/dotnet/core-setup/issues/4187 is resolved
       before_install:
         - brew update
         - brew tap caskroom/cask
