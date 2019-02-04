@@ -7,7 +7,9 @@ echo "Seq data will be stored at '$DIR/.seqdata'"
 # This runs Seq via docker, see https://docs.getseq.net/v5/docs/docker
 
 docker run \
+  --rm \
   -t \
+  -i \
   -e ACCEPT_EULA=Y \
   -v $DIR/.seqdata:/data \
   -p 5341:80 \
