@@ -17,8 +17,8 @@ $branch = $NULL
 if($env:APPVEYOR_REPO_BRANCH) {
     $branch = $env:APPVEYOR_REPO_BRANCH
 }
-if($env:TRAVIS_PULL_REQUEST_BRANCH) {
-    $branch = $env:TRAVIS_PULL_REQUEST_BRANCH
+if($env:TRAVIS_BRANCH) {
+    $branch = $env:TRAVIS_BRANCH
 }
 if(!$branch) {
     $branch = $(git symbolic-ref --short -q HEAD)
