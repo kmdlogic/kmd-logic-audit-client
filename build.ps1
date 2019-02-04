@@ -7,11 +7,6 @@ if(Test-Path .\artifacts) {
 	Remove-Item .\artifacts -Force -Recurse
 }
 
-$var = (Get-ChildItem env:*).GetEnumerator() | Sort-Object Name
-$out = ""
-Foreach ($v in $var) {$out = $out + "`t{0,-28} = {1,-28}`n" -f $v.Name, $v.Value}
-write-verbose -verbose $out 
-
 # Get the branch from Appveyor or Travis or git
 $branch = $NULL
 if($env:APPVEYOR_REPO_BRANCH) {
