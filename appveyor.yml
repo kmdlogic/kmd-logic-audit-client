@@ -14,10 +14,10 @@ deploy:
   skip_symbols: true
   on:
     branch: /^(master)$/
-# - provider: GitHub
-#   auth_token:
-#     secure: 
-#   artifact: /Kmd.Logic.Audit.Client*\.nupkg/
-#   tag: v$(appveyor_build_version)
-#   on:
-#     branch: master
+- provider: GitHub
+  auth_token:
+    secure: Gps7M2I9nmkgcYcaOKzYz8CpBNZrrtKDxYq88d9hZqx49oxeqasVEzkvXTnplaQD
+  artifact: /Kmd.Logic.Audit.Client*\.nupkg/
+  tag: v$(appveyor_build_version)
+  on:
+    branch: master
