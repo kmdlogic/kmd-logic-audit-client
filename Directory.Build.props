@@ -4,7 +4,20 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>7.3</LangVersion>
     <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
-    <NoWarn>$(NoWarn);CS1591;CA1812;SA1600;SA1633;SA1200;SA1202;SA1201</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;CA1812;SA1600;SA1633;SA1200;SA1202;SA1201;CA1016</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>A client library for KMD Logic Audit</Description>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <Authors>KMD</Authors>
+    <PackageTags>kmd;logic;audit</PackageTags>
+    <PackageIconUrl>https://console.kmdlogic.io/favicon-32x32.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/kmdlogic/kmd-logic-audit-client</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/kmdlogic/kmd-logic-audit-client</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
   </PropertyGroup>
 
   <ItemGroup>
