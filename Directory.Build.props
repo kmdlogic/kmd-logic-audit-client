@@ -11,7 +11,7 @@
     <Description>A client library for KMD Logic Audit</Description>
     <VersionPrefix>0.0.1</VersionPrefix>
     <Authors>KMD</Authors>
-    <PackageTags>kmd;logic</PackageTags>
+    <PackageTags>kmd;logic;audit</PackageTags>
     <PackageIconUrl>https://console.kmdlogic.io/favicon-32x32.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/kmdlogic/kmd-logic-audit-client</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
