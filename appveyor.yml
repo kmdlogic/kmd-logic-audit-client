@@ -17,7 +17,7 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: Gps7M2I9nmkgcYcaOKzYz8CpBNZrrtKDxYq88d9hZqx49oxeqasVEzkvXTnplaQD
-  artifact: /Kmd.Logic.Audit.Client*\.nupkg/
+  artifact: /Kmd.Logic.Audit.Client.*\.nupkg/
   tag: v$(appveyor_build_version)
   on:
     branch: master
