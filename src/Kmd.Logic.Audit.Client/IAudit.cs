@@ -16,6 +16,10 @@
         /// </summary>
         /// <param name="messageTemplate">The event message template, including any named {Property} holes</param>
         /// <param name="propertyValues">The values to be substituted into the message template for the event</param>
+        /// <remarks>
+        /// See https://messagetemplates.org/ and https://github.com/serilog/serilog/wiki/Writing-Log-Events for
+        /// an introduction to message templates and how to write events.
+        /// </remarks>
         void Write(string messageTemplate, params object[] propertyValues);
 
         /// <summary>
@@ -24,8 +28,12 @@
         /// </summary>
         /// <param name="propertyName">The contextual property name</param>
         /// <param name="value">The property value</param>
-        /// <param name="captureObjectStructure">When true, recursively capture the structure of the property</param>
+        /// <param name="captureObjectStructure">When true,
+        /// recursively captures the structure (properties) of the value. Beware to only use this
+        /// when you can be certain the object graph will not cause a CPU and/or event size disaster.</param>
         /// <returns>A new instance with the context property associated</returns>
-        IAudit ForContext(string propertyName, object value, bool captureObjectStructure = false);
+        IAudit ForContext(
+            string propertyName, object value,
+            bool captureObjectStructure = false);
     }
 }
