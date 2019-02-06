@@ -33,7 +33,8 @@
         /// when you can be certain the object graph will not cause a CPU and/or event size disaster.</param>
         /// <returns>A new instance with the context property associated</returns>
         IAudit ForContext(
-            string propertyName, object value,
+            string propertyName,
+            object value,
             bool captureObjectStructure = false);
     }
 }
