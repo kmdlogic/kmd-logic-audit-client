@@ -35,7 +35,7 @@ Write-Host "build: Build version suffix is $buildSuffix"
 foreach ($src in Get-ChildItem src/*) {
     Push-Location $src
 
-	Write-Host "build: Packaging project in $src"
+    Write-Host "build: Packaging project in $src"
 
     & dotnet build -c Release --version-suffix=$buildSuffix
 
@@ -49,10 +49,21 @@ foreach ($src in Get-ChildItem src/*) {
     Pop-Location
 }
 
+foreach ($src in Get-ChildItem sample/*) {
+    Push-Location $src
+
+    Write-Host "build: compiling project in $src"
+
+    & dotnet build -c Release
+    if($LASTEXITCODE -ne 0) { exit 1 }
+
+    Pop-Location
+}
+
 foreach ($test in Get-ChildItem test/*Tests) {
     Push-Location $test
 
-	Write-Host "build: Testing project in $test"
+    Write-Host "build: Testing project in $test"
 
     & dotnet test -c Release
     if($LASTEXITCODE -ne 0) { exit 3 }

@@ -5,20 +5,34 @@
    "version": "0.2.0",
    "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Audit Client Sample (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/sample/Kmd.Logic.Audit.Client.Sample/bin/Debug/netcoreapp2.2/Kmd.Logic.Audit.Client.Sample.dll",
             "args": [
-              "--Ingestion:EndPoint=https://localhost:5341/"
+              "--Ingestion:EndPoint=http://localhost:5341/"
             ],
             "cwd": "${workspaceFolder}/sample/Kmd.Logic.Audit.Client.Sample",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "integratedTerminal",
             "stopAtEntry": false,
             "internalConsoleOptions": "neverOpen"
+        },
+        {
+          "name": "Audit Client Sample (aspnet core)",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "build",
+          // If you have changed target frameworks, make sure to update the program path.
+          "program": "${workspaceFolder}/sample/Kmd.Logic.Audit.Client.AspnetCoreSample/bin/Debug/netcoreapp2.2/Kmd.Logic.Audit.Client.AspnetCoreSample.dll",
+          "args": [],
+          "cwd": "${workspaceFolder}/sample/Kmd.Logic.Audit.Client.AspnetCoreSample",
+          // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
+          "console": "integratedTerminal",
+          "stopAtEntry": false,
+          "internalConsoleOptions": "neverOpen"
         },
         {
             "name": ".NET Core Attach",
