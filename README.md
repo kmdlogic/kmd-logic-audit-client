@@ -36,9 +36,9 @@ using (var audit = new SerilogSeqAuditClient(
 
 ## Using Seq as the destination of audit events
 
-The KMD Logic Audit service back-end accepts log events in the [Serilog CLEF format](https://github.com/serilog/serilog-formatting-compact#format-details), and is [compatible with Seq](https://docs.getseq.net/docs/posting-raw-events). That means developers writing audit events can [install the free version of Seq](https://getseq.net/Download) and configure the `SerilogSeqAuditClient` to point to their local Seq instance (usually http://localhost:5341/ by default).
+The KMD Logic Audit service back-end accepts log events in the [Serilog CLEF format](https://github.com/serilog/serilog-formatting-compact#format-details), and is [compatible with the Seq ingestion endpoint](https://docs.getseq.net/docs/posting-raw-events). That means developers writing audit events can [install the free version of Seq](https://getseq.net/Download) and configure the `SerilogSeqAuditClient` to point to their local Seq instance (usually http://localhost:5341/ by default).
 
-We recommend using Seq to ensure the local audit event development experience first class.
+We recommend developers use Seq locally to help ensure the audit event development experience is first class, and use the KMD Logic Audit Service back-end in shared deployed application environments.
 
 ![Sample Seq Output](./assets/seq-events-view.png)
 
