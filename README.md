@@ -44,4 +44,4 @@ We recommend using Seq to ensure the local audit event development experience fi
 
 ## Using KMD Logic Audit as the destination of audit events
 
-Contact us in Teams (via Logic Advisors) or via https://console.kmdlogic.io/ for more information.
+Contact us at discover@kmdlogic.io for more information.
