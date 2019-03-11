@@ -35,9 +35,9 @@ namespace Kmd.Logic.Audit.Client.Sample
             using (Serilog.Context.LogContext.PushProperty("LogContext1", Guid.NewGuid()))
             {
                 audit
-                    .ForContext("AuditForContext1", Guid.NewGuid())
+                    .ForContext("HeyRajib", Guid.NewGuid())
                     .ForContext("StartArgs", args)
-                    .Write("Hello from {Application} v{Version}", name, version);
+                    .Write("Hey hey it worked, from {Application} v{Version}", name, "adam");
             }
         }
     }

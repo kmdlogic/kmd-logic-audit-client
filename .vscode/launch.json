@@ -12,7 +12,7 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/sample/Kmd.Logic.Audit.Client.Sample/bin/Debug/netcoreapp2.2/Kmd.Logic.Audit.Client.Sample.dll",
             "args": [
-              "--Ingestion:EndPoint=http://localhost:5341/"
+              "--Ingestion:EndPoint=http://localhost:5000/"
             ],
             "cwd": "${workspaceFolder}/sample/Kmd.Logic.Audit.Client.Sample",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
