@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.Aspn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.SerilogAzureEventHubs", "src\Kmd.Logic.Audit.Client.SerilogAzureEventHubs\Kmd.Logic.Audit.Client.SerilogAzureEventHubs.csproj", "{0159FC58-57BE-435A-B0B8-678D48AFCF8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.SampleEventHubs", "sample\Kmd.Logic.Audit.Client.SampleEventHubs\Kmd.Logic.Audit.Client.SampleEventHubs.csproj", "{8921E5CF-FC63-4641-B265-EEA4939BACFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,18 @@ Global
 		{0159FC58-57BE-435A-B0B8-678D48AFCF8B}.Release|x64.Build.0 = Release|Any CPU
 		{0159FC58-57BE-435A-B0B8-678D48AFCF8B}.Release|x86.ActiveCfg = Release|Any CPU
 		{0159FC58-57BE-435A-B0B8-678D48AFCF8B}.Release|x86.Build.0 = Release|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Debug|x64.Build.0 = Debug|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Debug|x86.Build.0 = Debug|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|x64.ActiveCfg = Release|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|x64.Build.0 = Release|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|x86.ActiveCfg = Release|Any CPU
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1C4F4CFA-09FE-4CEE-AB0A-237CB52BD1A0} = {C928BF1D-6596-4F8F-AB5E-67308DA6D26B}
@@ -128,5 +142,6 @@ Global
 		{B9AAFEA9-6DDE-4881-BC90-339B75614A84} = {C26E8896-8D49-4B97-8A19-556F4EC3A357}
 		{B3870AF6-BD84-4943-A0FD-EA79DFE18480} = {C26E8896-8D49-4B97-8A19-556F4EC3A357}
 		{0159FC58-57BE-435A-B0B8-678D48AFCF8B} = {C928BF1D-6596-4F8F-AB5E-67308DA6D26B}
+		{8921E5CF-FC63-4641-B265-EEA4939BACFA} = {C26E8896-8D49-4B97-8A19-556F4EC3A357}
 	EndGlobalSection
 EndGlobal
