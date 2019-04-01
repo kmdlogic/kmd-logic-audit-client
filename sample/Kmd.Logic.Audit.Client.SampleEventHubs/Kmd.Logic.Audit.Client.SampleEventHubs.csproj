@@ -1,7 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Kmd.Logic.Audit.Client.SerilogSeq\Kmd.Logic.Audit.Client.SerilogSeq.csproj" />
     <ProjectReference Include="..\..\src\Kmd.Logic.Audit.Client.SerilogAzureEventHubs\Kmd.Logic.Audit.Client.SerilogAzureEventHubs.csproj" />
   </ItemGroup>
 

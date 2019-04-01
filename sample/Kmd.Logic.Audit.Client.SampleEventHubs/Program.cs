@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Kmd.Logic.Audit.Client.SerilogSeq;
 using Microsoft.Extensions.Configuration;
 
 namespace Kmd.Logic.Audit.Client.Sample
