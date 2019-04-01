@@ -32,7 +32,8 @@ namespace Kmd.Logic.Audit.Client.Sample
                 var name = typeof(Program).Assembly.GetName().Name;
                 var version = typeof(Program).Assembly.GetName().Version;
 
-                Console.WriteLine("Sending {0} audit events to {1} at {2}",
+                Console.WriteLine(
+                    "Sending {0} audit events to {1} at {2}",
                     config.Ingestion.NumberOfEventsToSend,
                     clientConfig.AuditEventTopic,
                     clientConfig.ConnectionString);
@@ -50,7 +51,7 @@ namespace Kmd.Logic.Audit.Client.Sample
                             .Write("Hello #{IterationNum} from {Application} v{Version}", i, name, version);
                     }
                 }
-                
+
                 Console.WriteLine("Finished in {0}ms", sw.ElapsedMilliseconds);
             }
         }
