@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="1.0.0" />
-    <PackageReference Include="Serilog.Sinks.AzureEventHub" Version="4.1.0-dev-00038" />
+    <PackageReference Include="Serilog.Sinks.AzureEventHub" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
