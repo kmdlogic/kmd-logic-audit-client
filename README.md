@@ -6,7 +6,9 @@ The KMD Logic Audit service utilises many modern concepts from [Serilog](https:/
 
 ## How to use this client library
 
-In projects or components where you need to *write* audit events, add a NuGet package reference to [Kmd.Logic.Audit.Client](https://www.nuget.org/packages/Kmd.Logic.Audit.Client), and use the `IAudit` interface like this:
+### Reference `Kmd.Logic.Audit.Client`
+
+In projects or components where you have the need to *generate* audit events, add a NuGet package reference to [Kmd.Logic.Audit.Client](https://www.nuget.org/packages/Kmd.Logic.Audit.Client), and use the `IAudit` interface like this:
 
 ```csharp
 audit
@@ -15,11 +17,17 @@ audit
     .Write("Entity {EntityId} is now {Status} because {UserId} requested it", domainEntity.Id, domainEntity.Status, currentUserId);
 ```
 
-In your applications `Main()`, or `Startup.ConfigureServices()` or other [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/), create a singleton instance of `Kmd.Logic.Audit.Client.SerilogSeq.SerilogSeqAuditClient` and use it as the implementation of `IAudit` by injecting it into your container or exposing it as a static property or method. Since `SerilogSeqAuditClient` is thread-safe and requires disposal, it would be appropriate to use a singleton lifetime in a DI container that will dispose of it upon application shut down.
+### Choose your client backend
 
-To demonstrate this without a DI container:
+In your application, typically in `Main()` (or perhaps `Startup.ConfigureServices()` or another [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/)), you create an instance of the audit client (`Kmd.Logic.Audit.Client.SerilogSeq.SerilogSeqAuditClient` for Seq or `Kmd.Logic.Audit.Client.SerilogAzureEventHubs.SerilogAzureEventHubsAuditClient` for Azure EventHubs) and use it as the implementation of `IAudit` by injecting it into your container with a singleton lifetime or expose it as a static property or method. Since the client implementations are thread-safe and require disposal, it would be appropriate to use a singleton lifetime in a DI container and allow the DI container to dispose of it upon application shut down.
+
+To demonstrate this without the use of a DI container:
 
 ```csharp
+public static class Audit
+{
+  public static readonly IAudit Instance;
+}
 using (var audit = new SerilogSeqAuditClient(
     new SerilogSeqAuditClientConfiguration
     {
