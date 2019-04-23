@@ -9,5 +9,7 @@ namespace Kmd.Logic.Audit.Client.Sample
         public string ConnectionString { get; set; }
 
         public string AuditEventTopic { get; set; } = "audit";
+
+        public string EventSource { get; set; }
     }
 }

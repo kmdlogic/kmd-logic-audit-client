@@ -18,6 +18,9 @@ namespace Kmd.Logic.Audit.Client.SerilogAzureEventHubs
             }
 
             var configBuilder = new LoggerConfiguration()
+                .Enrich.With(new EventIdEnricher())
+                .Enrich.With(new CreatedDateTimeEnricher())
+                .Enrich.WithProperty("_EventSource", config.EventSource)
                 .AuditTo.AzureEventHub(
                     formatter: new Serilog.Formatting.Compact.RenderedCompactJsonFormatter(),
                     connectionString: config.ConnectionString,

@@ -18,8 +18,15 @@ namespace Kmd.Logic.Audit.Client.Sample
                 .Build()
                 .Get<ProgramConfig>();
 
+            if (string.IsNullOrEmpty(config?.Ingestion?.ConnectionString))
+            {
+                Console.WriteLine("You need to specify a connection string (e.g. --Ingestion:ConnectionString=\"test\")");
+                return;
+            }
+
             var clientConfig = new SerilogAzureEventHubs.SerilogAzureEventHubsAuditClientConfiguration
                 {
+                    EventSource = config.Ingestion.EventSource ?? $"{typeof(Program).Assembly.GetName().Name} on {Environment.MachineName}",
                     AuditEventTopic = config.Ingestion.AuditEventTopic,
                     ConnectionString = config.Ingestion.ConnectionString,
                     EnrichFromLogContext = config.Client.EnrichFromLogContext,
@@ -40,6 +47,11 @@ namespace Kmd.Logic.Audit.Client.Sample
                 var sw = System.Diagnostics.Stopwatch.StartNew();
                 var groupId = Guid.NewGuid();
 
+                if (clientConfig.EnrichFromLogContext == true)
+                {
+                    Console.WriteLine($"The GroupId {groupId} will be attached to each event");
+                }
+
                 using (Serilog.Context.LogContext.PushProperty("GroupId", groupId))
                 {
                     for (int i = 0; i < config.Ingestion.NumberOfEventsToSend; i++)
@@ -48,6 +60,15 @@ namespace Kmd.Logic.Audit.Client.Sample
                             .ForContext("AuditForContext1", Guid.NewGuid())
                             .ForContext("StartArgs", args)
                             .Write("Hello #{IterationNum} from {Application} v{Version}", i, name, version);
+
+                        var numDividedBy10Or1 = config.Ingestion.NumberOfEventsToSend < 10
+                            ? 1
+                            : config.Ingestion.NumberOfEventsToSend / 10;
+
+                        if ((i % numDividedBy10Or1) == 0)
+                        {
+                            Console.WriteLine($"Sent {i} events so far...");
+                        }
                     }
                 }
 
