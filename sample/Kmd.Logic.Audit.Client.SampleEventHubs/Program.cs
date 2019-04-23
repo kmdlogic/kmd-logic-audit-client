@@ -61,7 +61,11 @@ namespace Kmd.Logic.Audit.Client.Sample
                             .ForContext("StartArgs", args)
                             .Write("Hello #{IterationNum} from {Application} v{Version}", i, name, version);
 
-                        if (i % (config.Ingestion.NumberOfEventsToSend / 10) == 0)
+                        var numDividedBy10Or1 = config.Ingestion.NumberOfEventsToSend < 10
+                            ? 1
+                            : config.Ingestion.NumberOfEventsToSend / 10;
+
+                        if ((i % numDividedBy10Or1) == 0)
                         {
                             Console.WriteLine($"Sent {i} events so far...");
                         }
