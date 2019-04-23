@@ -26,6 +26,7 @@ deploy:
   skip_symbols: true
   on:
     branch: /^(master|dev)$/
+    CI_WINDOWS: true
 - provider: GitHub
   auth_token:
     secure: Gps7M2I9nmkgcYcaOKzYz8CpBNZrrtKDxYq88d9hZqx49oxeqasVEzkvXTnplaQD
@@ -33,3 +34,4 @@ deploy:
   tag: v$(appveyor_build_version)
   on:
     branch: master
+    CI_WINDOWS: true
