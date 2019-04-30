@@ -22,7 +22,7 @@ namespace Kmd.Logic.Audit.Client.SerilogAzureEventHubs
                 .Enrich.With(new CreatedDateTimeEnricher())
                 .Enrich.WithProperty("_EventSource", config.EventSource)
                 .AuditTo.AzureEventHub(
-                    formatter: new Serilog.Formatting.Compact.RenderedCompactJsonFormatter(),
+                    formatter: new Serilog.Formatting.Compact.CompactJsonFormatter(),
                     connectionString: config.ConnectionString,
                     eventHubName: config.AuditEventTopic)
                 ;
