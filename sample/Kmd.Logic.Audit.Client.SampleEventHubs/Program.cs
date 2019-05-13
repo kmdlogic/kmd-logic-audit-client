@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace Kmd.Logic.Audit.Client.Sample
@@ -39,10 +40,11 @@ namespace Kmd.Logic.Audit.Client.Sample
                 var version = typeof(Program).Assembly.GetName().Version;
 
                 Console.WriteLine(
-                    "Sending {0} audit events to {1} at {2}",
+                    "Sending {0} ({3} threads) audit events to {1} at {2}",
                     config.Ingestion.NumberOfEventsToSend,
                     clientConfig.AuditEventTopic,
-                    clientConfig.ConnectionString);
+                    clientConfig.ConnectionString,
+                    config.Ingestion.NumberOfThreads);
 
                 var sw = System.Diagnostics.Stopwatch.StartNew();
                 var groupId = Guid.NewGuid();
@@ -54,22 +56,29 @@ namespace Kmd.Logic.Audit.Client.Sample
 
                 using (Serilog.Context.LogContext.PushProperty("GroupId", groupId))
                 {
-                    for (int i = 0; i < config.Ingestion.NumberOfEventsToSend; i++)
-                    {
-                        audit
-                            .ForContext("AuditForContext1", Guid.NewGuid())
-                            .ForContext("StartArgs", args)
-                            .Write("Hello #{IterationNum} from {Application} v{Version}", i, name, version);
-
-                        var numDividedBy10Or1 = config.Ingestion.NumberOfEventsToSend < 10
-                            ? 1
-                            : config.Ingestion.NumberOfEventsToSend / 10;
-
-                        if ((i % numDividedBy10Or1) == 0)
+                    Enumerable
+                        .Range(0, config.Ingestion.NumberOfEventsToSend)
+                        .AsParallel()
+                        .WithDegreeOfParallelism(config.Ingestion.NumberOfThreads)
+                        .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                        .Select(i =>
                         {
-                            Console.WriteLine($"Sent {i} events so far...");
-                        }
-                    }
+                            audit
+                                .ForContext("AuditForContext1", Guid.NewGuid())
+                                .ForContext("StartArgs", args)
+                                .Write("Hello #{IterationNum} from {Application} v{Version}", i, name, version);
+
+                            var numDividedBy10Or1 = config.Ingestion.NumberOfEventsToSend < 10
+                                ? 1
+                                : config.Ingestion.NumberOfEventsToSend / 10;
+
+                            if ((i % numDividedBy10Or1) == 0)
+                            {
+                                Console.WriteLine($"Sent {i} events so far...");
+                            }
+                            return i;
+                        })
+                        .ToArray();
                 }
 
                 Console.WriteLine("Finished in {0}ms", sw.ElapsedMilliseconds);
