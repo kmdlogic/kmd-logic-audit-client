@@ -22,7 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		.travis.yml = .travis.yml
 		Directory.Build.props = Directory.Build.props
 		kmd-logic-audit-client.sln.DotSettings = kmd-logic-audit-client.sln.DotSettings
 	EndProjectSection
