@@ -4,7 +4,7 @@ namespace Kmd.Logic.Audit.Client.Sample
 {
     public class ProgramConfigIngestion
     {
-        public int NumberOfEventsToSend { get; set; } = 1000;
+        public int NumberOfEventsToSend { get; set; } = 5;
 
         public int NumberOfThreads { get; set; } = 1;
 
