@@ -63,10 +63,7 @@ namespace Kmd.Logic.Audit.Client.Sample
                         .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                         .Select(i =>
                         {
-                            audit
-                                .ForContext("AuditForContext1", Guid.NewGuid())
-                                .ForContext("StartArgs", args)
-                                .Write("Hello #{IterationNum} from {Application} v{Version}", i, name, version);
+                            audit.Write("Hello number {IterationNum} from {Application} v{Version}", i, name, version);
 
                             var numDividedBy10Or1 = config.Ingestion.NumberOfEventsToSend < 10
                                 ? 1
