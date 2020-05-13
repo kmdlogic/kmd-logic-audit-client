@@ -29,7 +29,7 @@ deploy:
     CI_WINDOWS: true
 - provider: GitHub
   auth_token:
-    secure: Gps7M2I9nmkgcYcaOKzYz8CpBNZrrtKDxYq88d9hZqx49oxeqasVEzkvXTnplaQD
+    secure: y5RE7bzWxiAf2xs9Qmf0KePK5UrLnwDNhwAT7W4AxT2bWH1s6R9LGQ8I02DJXMWt
   artifact: /Kmd.Logic.Audit.Client.*\.nupkg/
   tag: v$(appveyor_build_version)
   on:
