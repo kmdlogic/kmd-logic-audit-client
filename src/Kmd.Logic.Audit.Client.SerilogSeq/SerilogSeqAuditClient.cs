@@ -1,32 +1,27 @@
 ﻿using System;
 using System.Net.Http;
-using Serilog;
 using Serilog.Core;
 
 namespace Kmd.Logic.Audit.Client.SerilogSeq
 {
     public class SerilogSeqAuditClient : IAudit, IDisposable
     {
-        private readonly Logger disposableLogger;
+        private readonly Logger logger;
+        private bool disposeLogger;
         private readonly SerilogLoggerAudit audit;
-
+        
         public SerilogSeqAuditClient(SerilogSeqAuditClientConfiguration config, HttpMessageHandler messageHandler = null)
         {
-            if (config == null)
-            {
-                throw new ArgumentNullException(nameof(config));
-            }
+            this.logger = config.DefaultConfiguration(messageHandler).CreateLogger();
+            this.disposeLogger = true;
+            this.audit = new SerilogLoggerAudit(this.logger);
+        }
 
-            var configuBuilder = new LoggerConfiguration()
-                .AuditTo.Seq($"{config.ServerUrl}", apiKey: config.ApiKey, messageHandler: messageHandler, compact: true);
-
-            if (config.EnrichFromLogContext == true)
-            {
-                configuBuilder = configuBuilder.Enrich.FromLogContext();
-            }
-
-            this.disposableLogger = configuBuilder.CreateLogger();
-            this.audit = new SerilogLoggerAudit(this.disposableLogger);
+        public SerilogSeqAuditClient(Logger logger, bool disposeLogger = true)
+        {
+            this.logger = logger;
+            this.disposeLogger = disposeLogger;
+            this.audit = new SerilogLoggerAudit(this.logger);
         }
 
         public void Write(string messageTemplate, params object[] propertyValues)
@@ -41,9 +36,9 @@ namespace Kmd.Logic.Audit.Client.SerilogSeq
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && disposeLogger)
             {
-                this.disposableLogger.Dispose();
+                this.logger.Dispose();
             }
         }
 

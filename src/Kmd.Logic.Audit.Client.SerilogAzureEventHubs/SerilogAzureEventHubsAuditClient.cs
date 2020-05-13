@@ -1,39 +1,26 @@
 ﻿using System;
-using System.Net.Http;
-using Serilog;
 using Serilog.Core;
 
 namespace Kmd.Logic.Audit.Client.SerilogAzureEventHubs
 {
     public class SerilogAzureEventHubsAuditClient : IAudit, IDisposable
     {
-        private readonly Logger disposableLogger;
+        private readonly Logger logger;
+        private readonly bool disposeLogger;
         private readonly SerilogLoggerAudit audit;
 
         public SerilogAzureEventHubsAuditClient(SerilogAzureEventHubsAuditClientConfiguration config)
         {
-            if (config == null)
-            {
-                throw new ArgumentNullException(nameof(config));
-            }
+            this.logger = config.DefaultConfiguration().CreateLogger();
+            this.disposeLogger = true;
+            this.audit = new SerilogLoggerAudit(this.logger);
+        }
 
-            var configBuilder = new LoggerConfiguration()
-                .Enrich.With(new EventIdEnricher())
-                .Enrich.With(new CreatedDateTimeEnricher())
-                .Enrich.WithProperty("_EventSource", config.EventSource)
-                .AuditTo.AzureEventHub(
-                    formatter: new Serilog.Formatting.Compact.CompactJsonFormatter(),
-                    connectionString: config.ConnectionString,
-                    eventHubName: config.AuditEventTopic)
-                ;
-
-            if (config.EnrichFromLogContext == true)
-            {
-                configBuilder = configBuilder.Enrich.FromLogContext();
-            }
-
-            this.disposableLogger = configBuilder.CreateLogger();
-            this.audit = new SerilogLoggerAudit(this.disposableLogger);
+        public SerilogAzureEventHubsAuditClient(Logger logger, bool disposeLogger = true)
+        {
+            this.logger = logger;
+            this.disposeLogger = disposeLogger;
+            this.audit = new SerilogLoggerAudit(this.logger);
         }
 
         public void Write(string messageTemplate, params object[] propertyValues)
@@ -48,9 +35,9 @@ namespace Kmd.Logic.Audit.Client.SerilogAzureEventHubs
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && this.disposeLogger)
             {
-                this.disposableLogger.Dispose();
+                this.logger.Dispose();
             }
         }
 

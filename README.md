@@ -45,6 +45,26 @@ using (var audit = new SerilogSeqAuditClient(
 }
 ```
 
+If you wish to customise the behaviour audit logger, you may do so:
+
+```csharp
+var config = new SerilogSeqAuditClientConfiguration
+{
+    ServerUrl = new Uri("http://localhost:5341/"),
+    ApiKey = null,
+    EnrichFromLogContext = true,
+};
+
+var logger = config.DefaultConfiguration()
+                   .Enrich.WithProperty("MachineName", Environment.MachineName)
+                   .CreateLogger();
+
+using (var audit = new SerilogSeqAuditClient(logger))
+{
+    // write your audit events here
+}
+```
+
 > NOTE: We have implemented this functionality initially by  reusing [Serilog](https://github.com/serilog/serilog) and the [Azure EventHub Sink](https://github.com/serilog/serilog-sinks-azureeventhub) or the [Seq sink](https://github.com/serilog/serilog-sinks-seq). We intend to publish a version of this client library in the future that has fewer (or no) external dependencies. If this issue impacts you negatively, please let us know. To help with future migrations away from [Kmd.Logic.Audit.Client.SerilogAzureEventHubs](https://www.nuget.org/packages/Kmd.Logic.Audit.Client.SerilogAzureEventHubs) or [Kmd.Logic.Audit.Client.SerilogSeq](https://www.nuget.org/packages/Kmd.Logic.Audit.Client.SerilogSeq), try to depend only on the [Kmd.Logic.Audit.Client](https://www.nuget.org/packages/Kmd.Logic.Audit.Client) package in components that write events, and depend on the [Kmd.Logic.Audit.Client.SerilogAzureEventHubs](https://www.nuget.org/packages/Kmd.Logic.Audit.Client.SerilogAzureEventHubs) or [Kmd.Logic.Audit.Client.SerilogSeq](https://www.nuget.org/packages/Kmd.Logic.Audit.Client.SerilogSeq) package in your application composition root only.
 
 ## Using Seq as the destination of audit events
