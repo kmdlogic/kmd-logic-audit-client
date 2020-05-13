@@ -7,9 +7,9 @@ namespace Kmd.Logic.Audit.Client.SerilogSeq
     public class SerilogSeqAuditClient : IAudit, IDisposable
     {
         private readonly Logger logger;
-        private bool disposeLogger;
+        private readonly bool disposeLogger;
         private readonly SerilogLoggerAudit audit;
-        
+
         public SerilogSeqAuditClient(SerilogSeqAuditClientConfiguration config, HttpMessageHandler messageHandler = null)
         {
             this.logger = config.DefaultConfiguration(messageHandler).CreateLogger();
@@ -36,7 +36,7 @@ namespace Kmd.Logic.Audit.Client.SerilogSeq
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && disposeLogger)
+            if (disposing && this.disposeLogger)
             {
                 this.logger.Dispose();
             }
