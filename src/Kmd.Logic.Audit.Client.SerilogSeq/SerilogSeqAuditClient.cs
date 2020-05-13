@@ -12,16 +12,21 @@ namespace Kmd.Logic.Audit.Client.SerilogSeq
 
         public SerilogSeqAuditClient(SerilogSeqAuditClientConfiguration config, HttpMessageHandler messageHandler = null)
         {
-            this.logger = config.DefaultConfiguration(messageHandler).CreateLogger();
+            this.logger = config.CreateDefaultConfiguration(messageHandler).CreateLogger();
             this.disposeLogger = true;
             this.audit = new SerilogLoggerAudit(this.logger);
         }
 
-        public SerilogSeqAuditClient(Logger logger, bool disposeLogger = true)
+        private SerilogSeqAuditClient(Logger logger, bool disposeLogger)
         {
             this.logger = logger;
             this.disposeLogger = disposeLogger;
             this.audit = new SerilogLoggerAudit(this.logger);
+        }
+
+        public static SerilogSeqAuditClient CreateCustomized(Logger logger, bool disposeLogger = true)
+        {
+            return new SerilogSeqAuditClient(logger, disposeLogger);
         }
 
         public void Write(string messageTemplate, params object[] propertyValues)

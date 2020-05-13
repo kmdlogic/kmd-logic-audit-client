@@ -6,7 +6,7 @@ namespace Kmd.Logic.Audit.Client.SerilogSeq
 {
     public static class SerilogSeqAuditClientConfigurationExtensions
     {
-        public static LoggerConfiguration DefaultConfiguration(this SerilogSeqAuditClientConfiguration config, HttpMessageHandler messageHandler = null)
+        public static LoggerConfiguration CreateDefaultConfiguration(this SerilogSeqAuditClientConfiguration config, HttpMessageHandler messageHandler = null)
         {
             if (config == null)
             {
@@ -14,7 +14,7 @@ namespace Kmd.Logic.Audit.Client.SerilogSeq
             }
 
             var configBuilder = new LoggerConfiguration()
-                .AuditTo.Seq($"{config.ServerUrl}", apiKey: config.ApiKey, messageHandler: messageHandler, compact: true);
+                .AuditTo.Seq(config.ServerUrl.ToString(), apiKey: config.ApiKey, messageHandler: messageHandler, compact: true);
 
             if (config.EnrichFromLogContext == true)
             {

@@ -5,7 +5,7 @@ namespace Kmd.Logic.Audit.Client.SerilogAzureEventHubs
 {
     public static class SerilogAzureEventHubsAuditClientConfigurationExtensions
     {
-        public static LoggerConfiguration DefaultConfiguration(this SerilogAzureEventHubsAuditClientConfiguration config)
+        public static LoggerConfiguration CreateDefaultConfiguration(this SerilogAzureEventHubsAuditClientConfiguration config)
         {
             if (config == null)
             {

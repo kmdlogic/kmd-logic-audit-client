@@ -11,16 +11,21 @@ namespace Kmd.Logic.Audit.Client.SerilogAzureEventHubs
 
         public SerilogAzureEventHubsAuditClient(SerilogAzureEventHubsAuditClientConfiguration config)
         {
-            this.logger = config.DefaultConfiguration().CreateLogger();
+            this.logger = config.CreateDefaultConfiguration().CreateLogger();
             this.disposeLogger = true;
             this.audit = new SerilogLoggerAudit(this.logger);
         }
 
-        public SerilogAzureEventHubsAuditClient(Logger logger, bool disposeLogger = true)
+        private SerilogAzureEventHubsAuditClient(Logger logger, bool disposeLogger)
         {
             this.logger = logger;
             this.disposeLogger = disposeLogger;
             this.audit = new SerilogLoggerAudit(this.logger);
+        }
+
+        public static SerilogAzureEventHubsAuditClient CreateCustomized(Logger logger, bool disposeLogger = true)
+        {
+            return new SerilogAzureEventHubsAuditClient(logger, disposeLogger);
         }
 
         public void Write(string messageTemplate, params object[] propertyValues)

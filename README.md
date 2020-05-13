@@ -45,7 +45,7 @@ using (var audit = new SerilogSeqAuditClient(
 }
 ```
 
-If you wish to customise the behaviour audit logger, you may do so:
+If required you can customise the behaviour of the audit logger, but it is at your own risk:
 
 ```csharp
 var config = new SerilogSeqAuditClientConfiguration
@@ -55,11 +55,11 @@ var config = new SerilogSeqAuditClientConfiguration
     EnrichFromLogContext = true,
 };
 
-var logger = config.DefaultConfiguration()
+var logger = config.CreateDefaultConfiguration()
                    .Enrich.WithProperty("MachineName", Environment.MachineName)
                    .CreateLogger();
 
-using (var audit = new SerilogSeqAuditClient(logger))
+using (var audit = SerilogSeqAuditClient.CreateCustomized(logger))
 {
     // write your audit events here
 }
