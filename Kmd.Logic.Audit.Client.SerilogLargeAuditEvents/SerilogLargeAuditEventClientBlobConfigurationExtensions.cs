@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Serilog;
 
 namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 {
-    public static class SerilogLargeAuditEventClientConfigurationExtensions
+    public static class SerilogLargeAuditEventClientBlobConfigurationExtensions
     {
-        public static LoggerConfiguration CreateEventhubConfiguration(this SerilogLargeAuditEventClientConfiguration config)
+        public static LoggerConfiguration CreateBlobConfiguration(this SerilogLargeAuditEventClientConfiguration config)
         {
             if (config == null)
             {
@@ -16,10 +18,10 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                     .Enrich.With(new EventIdEnricher())
                     .Enrich.With(new CreatedDateTimeEnricher())
                     .Enrich.WithProperty("_EventSource", config.EventSource)
-                    .AuditTo.AzureEventHub(
+                    .WriteTo.AzureBlobStorage(
+                        connectionString: config.BlobConnectionString,
                         formatter: new Serilog.Formatting.Compact.CompactJsonFormatter(),
-                        connectionString: config.ConnectionString,
-                        eventHubName: config.AuditEventTopic)
+                        storageContainerName: config.BlobContainerName)
                 ;
 
             if (config.EnrichFromLogContext == true)

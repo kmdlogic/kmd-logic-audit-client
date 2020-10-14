@@ -5,22 +5,28 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 {
     public class SerilogLargeAuditEventClient : IAudit, IDisposable
     {
-        private readonly Logger logger;
+        private readonly Logger eventhubLogger;
+        private readonly Logger blobLogger;
         private readonly bool disposeLogger;
         private readonly SerilogLoggerAudit audit;
+        private readonly SerilogBlobLoggerAudit auditToBlob;
 
         public SerilogLargeAuditEventClient(SerilogLargeAuditEventClientConfiguration config)
         {
-            this.logger = config.CreateDefaultConfiguration().CreateLogger();
+            this.eventhubLogger = config.CreateEventhubConfiguration().CreateLogger();
+            this.blobLogger = config.CreateBlobConfiguration().CreateLogger();
             this.disposeLogger = true;
-            this.audit = new SerilogLoggerAudit(this.logger);
+            this.audit = new SerilogLoggerAudit(this.eventhubLogger);
+            this.auditToBlob = new SerilogBlobLoggerAudit(this.blobLogger);
         }
 
         private SerilogLargeAuditEventClient(Logger logger, bool disposeLogger)
         {
-            this.logger = logger;
+            this.eventhubLogger = logger;
+            this.blobLogger = logger;
             this.disposeLogger = disposeLogger;
-            this.audit = new SerilogLoggerAudit(this.logger);
+            this.audit = new SerilogLoggerAudit(this.eventhubLogger);
+            this.auditToBlob = new SerilogBlobLoggerAudit(this.blobLogger);
         }
 
         public static SerilogLargeAuditEventClient CreateCustomized(Logger logger, bool disposeLogger = true)
@@ -31,6 +37,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
         public void Write(string messageTemplate, params object[] propertyValues)
         {
             this.audit.Write(messageTemplate, propertyValues);
+            this.auditToBlob.Write(messageTemplate, propertyValues);
         }
 
         public IAudit ForContext(string propertyName, object value, bool captureObjectStructure = false)
@@ -42,7 +49,8 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
         {
             if (disposing && this.disposeLogger)
             {
-                this.logger.Dispose();
+                this.eventhubLogger.Dispose();
+                this.blobLogger.Dispose();
             }
         }
 
