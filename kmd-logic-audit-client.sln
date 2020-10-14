@@ -1,40 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C928BF1D-6596-4F8F-AB5E-67308DA6D26B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client", "src\Kmd.Logic.Audit.Client\Kmd.Logic.Audit.Client.csproj", "{1C4F4CFA-09FE-4CEE-AB0A-237CB52BD1A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client", "src\Kmd.Logic.Audit.Client\Kmd.Logic.Audit.Client.csproj", "{1C4F4CFA-09FE-4CEE-AB0A-237CB52BD1A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.SerilogSeq", "src\Kmd.Logic.Audit.Client.SerilogSeq\Kmd.Logic.Audit.Client.SerilogSeq.csproj", "{48C1EB50-CEE5-4152-B162-E6FF18A85719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.SerilogSeq", "src\Kmd.Logic.Audit.Client.SerilogSeq\Kmd.Logic.Audit.Client.SerilogSeq.csproj", "{48C1EB50-CEE5-4152-B162-E6FF18A85719}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3446296D-9DF0-4E93-9331-8DBB4B1E0559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.Tests", "test\Kmd.Logic.Audit.Client.Tests\Kmd.Logic.Audit.Client.Tests.csproj", "{2F057C22-D0A4-4FF2-BA10-8E55FA22EEE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.Tests", "test\Kmd.Logic.Audit.Client.Tests\Kmd.Logic.Audit.Client.Tests.csproj", "{2F057C22-D0A4-4FF2-BA10-8E55FA22EEE9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{AB6CA924-730A-4314-A8FF-EE9B41605EC9}"
 	ProjectSection(SolutionItems) = preProject
-		CHANGES.md = CHANGES.md
-		global.json = global.json
-		LICENSE = LICENSE
-		README.md = README.md
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		CHANGES.md = CHANGES.md
 		Directory.Build.props = Directory.Build.props
+		global.json = global.json
 		kmd-logic-audit-client.sln.DotSettings = kmd-logic-audit-client.sln.DotSettings
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{C26E8896-8D49-4B97-8A19-556F4EC3A357}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.Sample", "sample\Kmd.Logic.Audit.Client.Sample\Kmd.Logic.Audit.Client.Sample.csproj", "{B9AAFEA9-6DDE-4881-BC90-339B75614A84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.Sample", "sample\Kmd.Logic.Audit.Client.Sample\Kmd.Logic.Audit.Client.Sample.csproj", "{B9AAFEA9-6DDE-4881-BC90-339B75614A84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.AspnetCoreSample", "sample\Kmd.Logic.Audit.Client.AspnetCoreSample\Kmd.Logic.Audit.Client.AspnetCoreSample.csproj", "{B3870AF6-BD84-4943-A0FD-EA79DFE18480}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.AspnetCoreSample", "sample\Kmd.Logic.Audit.Client.AspnetCoreSample\Kmd.Logic.Audit.Client.AspnetCoreSample.csproj", "{B3870AF6-BD84-4943-A0FD-EA79DFE18480}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.SerilogAzureEventHubs", "src\Kmd.Logic.Audit.Client.SerilogAzureEventHubs\Kmd.Logic.Audit.Client.SerilogAzureEventHubs.csproj", "{0159FC58-57BE-435A-B0B8-678D48AFCF8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.SerilogAzureEventHubs", "src\Kmd.Logic.Audit.Client.SerilogAzureEventHubs\Kmd.Logic.Audit.Client.SerilogAzureEventHubs.csproj", "{0159FC58-57BE-435A-B0B8-678D48AFCF8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.SampleEventHubs", "sample\Kmd.Logic.Audit.Client.SampleEventHubs\Kmd.Logic.Audit.Client.SampleEventHubs.csproj", "{8921E5CF-FC63-4641-B265-EEA4939BACFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.SampleEventHubs", "sample\Kmd.Logic.Audit.Client.SampleEventHubs\Kmd.Logic.Audit.Client.SampleEventHubs.csproj", "{8921E5CF-FC63-4641-B265-EEA4939BACFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.Audit.Client.SerilogLargeAuditEvents", "Kmd.Logic.Audit.Client.SerilogLargeAuditEvents\Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.csproj", "{097E1244-12AA-4704-A105-44FD4E148637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,9 +46,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1C4F4CFA-09FE-4CEE-AB0A-237CB52BD1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -133,6 +132,21 @@ Global
 		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|x64.Build.0 = Release|Any CPU
 		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|x86.ActiveCfg = Release|Any CPU
 		{8921E5CF-FC63-4641-B265-EEA4939BACFA}.Release|x86.Build.0 = Release|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Debug|x64.Build.0 = Debug|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Debug|x86.Build.0 = Debug|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Release|x64.ActiveCfg = Release|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Release|x64.Build.0 = Release|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Release|x86.ActiveCfg = Release|Any CPU
+		{097E1244-12AA-4704-A105-44FD4E148637}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1C4F4CFA-09FE-4CEE-AB0A-237CB52BD1A0} = {C928BF1D-6596-4F8F-AB5E-67308DA6D26B}
@@ -142,5 +156,9 @@ Global
 		{B3870AF6-BD84-4943-A0FD-EA79DFE18480} = {C26E8896-8D49-4B97-8A19-556F4EC3A357}
 		{0159FC58-57BE-435A-B0B8-678D48AFCF8B} = {C928BF1D-6596-4F8F-AB5E-67308DA6D26B}
 		{8921E5CF-FC63-4641-B265-EEA4939BACFA} = {C26E8896-8D49-4B97-8A19-556F4EC3A357}
+		{097E1244-12AA-4704-A105-44FD4E148637} = {C928BF1D-6596-4F8F-AB5E-67308DA6D26B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B6A42A3-6999-43F8-9F44-C64FC107FA47}
 	EndGlobalSection
 EndGlobal
