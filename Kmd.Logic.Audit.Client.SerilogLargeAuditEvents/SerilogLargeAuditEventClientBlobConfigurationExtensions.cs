@@ -28,7 +28,9 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                     .Enrich.With(new EventIdEnricher())
                     .Enrich.With(new CreatedDateTimeEnricher())
                     .Enrich.WithProperty("_EventSource", config.EventSource)
-                    .WriteTo.AzureBlobOrEventHub();
+                    .WriteTo.AzureBlobOrEventHub(
+                        connectionString: config.BlobConnectionString,
+                        formatter: new Serilog.Formatting.Compact.CompactJsonFormatter());
 
             if (config.EnrichFromLogContext == true)
             {
