@@ -36,7 +36,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 
         public void Write(string messageTemplate, params object[] propertyValues)
         {
-            this.audit.Write(messageTemplate, propertyValues);
+            //this.audit.Write(messageTemplate, propertyValues);
             this.auditToBlob.Write(messageTemplate, propertyValues);
         }
 

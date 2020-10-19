@@ -15,7 +15,7 @@ namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
         private readonly IAzureBlobServiceHelper azureBlobServiceHelper;
         private readonly IAzureBlobServiceProvider azureBlobServiceProvider;
         private readonly string storageContainerName;
-        private readonly string storageBlobName;
+        private string storageBlobName;
 
         public AzureBlobOrEventHubSink(
             BlobServiceClient blobServiceClient,
@@ -32,7 +32,7 @@ namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
 
             if (string.IsNullOrEmpty(storageBlobName))
             {
-                storageBlobName = "log.txt";
+                storageBlobName = "log";
             }
 
             this.textFormatter = textFormatter;
@@ -49,7 +49,16 @@ namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
         public void Emit(LogEvent logEvent)
         {
             var content = this.azureBlobServiceHelper.PrepareBlobContentForUpload(this.textFormatter, new[] { logEvent });
-            this.azureBlobServiceProvider.UploadBlobAsync(this.blobServiceClient, this.storageContainerName, this.storageBlobName);
+
+            // Get Event Id value and use it as blob name
+            LogEventPropertyValue eventIdValue;
+            logEvent.Properties.TryGetValue("_EventId", out eventIdValue);
+            if (eventIdValue != null)
+            {
+                this.storageBlobName = eventIdValue.ToString();
+            }
+
+            this.azureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, this.storageBlobName, content);
         }
     }
 }

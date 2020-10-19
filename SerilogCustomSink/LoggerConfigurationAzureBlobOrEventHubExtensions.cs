@@ -21,7 +21,7 @@ namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException(nameof(connectionString));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
             BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, formatter));
+            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, formatter, storageContainerName, storageBlobName));
         }
     }
 }

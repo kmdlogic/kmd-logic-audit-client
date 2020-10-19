@@ -8,6 +8,6 @@ namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
 {
     public interface IAzureBlobServiceProvider
     {
-        Task UploadBlobAsync(BlobServiceClient blobServiceClient, string blobContainerName, string blobName);
+        void UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, IEnumerable<string> content);
     }
 }

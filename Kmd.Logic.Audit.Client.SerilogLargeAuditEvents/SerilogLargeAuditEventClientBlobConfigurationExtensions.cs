@@ -30,6 +30,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                     .Enrich.WithProperty("_EventSource", config.EventSource)
                     .WriteTo.AzureBlobOrEventHub(
                         connectionString: config.BlobConnectionString,
+                        storageContainerName: config.BlobContainerName,
                         formatter: new Serilog.Formatting.Compact.CompactJsonFormatter());
 
             if (config.EnrichFromLogContext == true)
