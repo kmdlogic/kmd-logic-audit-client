@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SerilogCustomSink\Kmd.Logic.CustomSink.AzureBlobOrEventHub.csproj" />
+    <ProjectReference Include="..\SerilogCustomSink\Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink.csproj" />
     <ProjectReference Include="..\src\Kmd.Logic.Audit.Client\Kmd.Logic.Audit.Client.csproj" />
   </ItemGroup>
 

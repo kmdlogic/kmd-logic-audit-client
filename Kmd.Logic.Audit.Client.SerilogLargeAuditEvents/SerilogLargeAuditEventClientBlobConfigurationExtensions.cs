@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink;
 using Serilog;
-using Kmd.Logic.CustomSink.AzureBlobOrEventHub;
 
 namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 {

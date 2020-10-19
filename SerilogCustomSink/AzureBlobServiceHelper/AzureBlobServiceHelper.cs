@@ -5,7 +5,7 @@ using System.Text;
 using Serilog.Events;
 using Serilog.Formatting;
 
-namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
+namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public class AzureBlobServiceHelper : IAzureBlobServiceHelper
     {

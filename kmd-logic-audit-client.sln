@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.Samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.SerilogLargeAuditEvents", "Kmd.Logic.Audit.Client.SerilogLargeAuditEvents\Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.csproj", "{097E1244-12AA-4704-A105-44FD4E148637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kmd.Logic.CustomSink.AzureBlobOrEventHub", "SerilogCustomSink\Kmd.Logic.CustomSink.AzureBlobOrEventHub.csproj", "{D95764F6-EA56-4617-8AA5-410F1C5D01C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink", "SerilogCustomSink\Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink.csproj", "{D95764F6-EA56-4617-8AA5-410F1C5D01C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

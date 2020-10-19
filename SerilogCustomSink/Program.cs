@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
+namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     class Program
     {

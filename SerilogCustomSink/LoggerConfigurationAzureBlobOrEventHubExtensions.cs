@@ -6,7 +6,7 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Formatting;
 
-namespace Kmd.Logic.CustomSink.AzureBlobOrEventHub
+namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public static class LoggerConfigurationAzureBlobOrEventHubExtensions
     {
