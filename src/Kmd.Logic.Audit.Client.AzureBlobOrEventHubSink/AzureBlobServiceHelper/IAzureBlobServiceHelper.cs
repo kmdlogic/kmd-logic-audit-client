@@ -8,6 +8,6 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public interface IAzureBlobServiceHelper
     {
-        IEnumerable<string> PrepareBlobContentForUpload(ITextFormatter textFormatter, IEnumerable<LogEvent> logEvents);
+        string PrepareBlobContentForUpload(ITextFormatter textFormatter, LogEvent logEvent);
     }
 }

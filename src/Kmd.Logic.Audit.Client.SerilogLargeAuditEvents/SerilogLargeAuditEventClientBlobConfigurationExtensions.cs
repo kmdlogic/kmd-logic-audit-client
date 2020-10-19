@@ -31,6 +31,8 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                     .WriteTo.AzureBlobOrEventHub(
                         connectionString: config.BlobConnectionString,
                         storageContainerName: config.BlobContainerName,
+                        eventConnectionString: config.ConnectionString,
+                        eventHubName: config.AuditEventTopic,
                         formatter: new Serilog.Formatting.Compact.CompactJsonFormatter());
 
             if (config.EnrichFromLogContext == true)

@@ -9,24 +9,21 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public class AzureBlobServiceProvider : IAzureBlobServiceProvider
     {
-        public void UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, IEnumerable<string> content)
+        public void UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content)
         {
             try
             {
                 // Get a reference to a blob
                 BlobClient blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, blobName);
-                foreach (string blockContent in content)
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
                 {
-                    using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(blockContent)))
+                    try
                     {
-                        try
-                        {
-                            blobClient.Upload(stream);
-                        }
-                        catch (Exception ex)
-                        {
-                            Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown while trying to upload blob.");
-                        }
+                        blobClient.Upload(stream);
+                    }
+                    catch (Exception ex)
+                    {
+                        Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown while trying to upload blob.");
                     }
                 }
             }

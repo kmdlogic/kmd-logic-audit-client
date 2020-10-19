@@ -9,39 +9,36 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public class AzureBlobServiceHelper : IAzureBlobServiceHelper
     {
-        public IEnumerable<string> PrepareBlobContentForUpload(ITextFormatter textFormatter, IEnumerable<LogEvent> logEvents)
+        public string PrepareBlobContentForUpload(ITextFormatter textFormatter, LogEvent logEvent)
         {
             if (textFormatter == null)
             {
                 throw new ArgumentNullException(nameof(textFormatter));
             }
 
-            if (logEvents == null)
+            if (logEvent == null)
             {
-                throw new ArgumentNullException(nameof(logEvents));
+                throw new ArgumentNullException(nameof(logEvent));
             }
 
-            List<string> contents = new List<string>();
-            foreach (LogEvent logEvent in logEvents)
+            string content;
+
+            using (StringWriter tempStringWriter = new StringWriter())
             {
-                using (StringWriter tempStringWriter = new StringWriter())
+                try
                 {
-                    try
-                    {
-                        textFormatter.Format(logEvent, tempStringWriter);
-                        tempStringWriter.Flush();
-                    }
-                    catch (Exception ex)
-                    {
-                        Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown during logEvent formatting. The log event will be dropped.");
-                        continue;
-                    }
-
-                    contents.Add(tempStringWriter.ToString());
+                    textFormatter.Format(logEvent, tempStringWriter);
+                    tempStringWriter.Flush();
                 }
+                catch (Exception ex)
+                {
+                    Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown during logEvent formatting. The log event will be dropped.");
+                }
+
+                content = tempStringWriter.ToString();
             }
 
-            return contents;
+            return content;
         }
     }
 }
