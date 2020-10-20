@@ -33,6 +33,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                         storageContainerName: config.BlobContainerName,
                         eventConnectionString: config.ConnectionString,
                         eventHubName: config.AuditEventTopic,
+                        eventSizeLimitInBytes: 10,
                         formatter: new Serilog.Formatting.Compact.CompactJsonFormatter());
 
             if (config.EnrichFromLogContext == true)

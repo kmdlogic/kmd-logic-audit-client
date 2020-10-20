@@ -8,6 +8,6 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public interface IAzureBlobServiceProvider
     {
-        void UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content);
+        string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content);
     }
 }

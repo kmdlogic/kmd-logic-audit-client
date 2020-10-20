@@ -9,27 +9,31 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public class AzureBlobServiceProvider : IAzureBlobServiceProvider
     {
-        public void UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content)
+        /// <summary>
+        /// Uploads blob and return the blob url
+        /// </summary>
+        /// <param name="blobServiceClient"></param>
+        /// <param name="blobContainerName"></param>
+        /// <param name="blobName"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content)
         {
-            try
+            // Get a reference to a blob
+            BlobClient blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, blobName);
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
             {
-                // Get a reference to a blob
-                BlobClient blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, blobName);
-                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
+                try
                 {
-                    try
-                    {
-                        blobClient.Upload(stream);
-                    }
-                    catch (Exception ex)
-                    {
-                        Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown while trying to upload blob.");
-                    }
+                    blobClient.Upload(stream);
+                    var blobUrl = blobClient.Uri.ToString();
+                    return blobUrl;
                 }
-            }
-            catch (Exception ex)
-            {
-
+                catch (Exception ex)
+                {
+                    Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown while trying to upload blob.");
+                    return string.Empty;
+                }
             }
         }
 

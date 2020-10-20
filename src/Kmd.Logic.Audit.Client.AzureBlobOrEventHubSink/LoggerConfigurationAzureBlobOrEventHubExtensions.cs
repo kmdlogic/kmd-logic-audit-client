@@ -16,6 +16,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
               string connectionString,
               string eventConnectionString,
               string eventHubName,
+              int eventSizeLimitInBytes = 256 * 1024,
               string storageContainerName = null,
             string storageBlobName = null,
               ITextFormatter formatter = null)
@@ -50,10 +51,10 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 EntityPath = eventHubName
             };
 
-            var client = EventHubClient.CreateFromConnectionString(connectionstringBuilder.ToString());
+            var eventHubclient = EventHubClient.CreateFromConnectionString(connectionstringBuilder.ToString());
 
             BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, formatter, client, storageContainerName, storageBlobName));
+            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, formatter, eventHubclient, eventSizeLimitInBytes, storageContainerName, storageBlobName));
         }
     }
 }
