@@ -63,15 +63,15 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 
         public void Emit(LogEvent logEventPrm)
         {
-            string blobUrl = string.Empty;
-            LogEvent logEvent = logEventPrm;
+            var blobUrl = string.Empty;
+            var logEvent = logEventPrm;
             if (AuditEventPayload.DoesAuditEventPayloadExceedLimit(this.textFormatter, logEventPrm, this.eventSizeLimit))
             {
                 blobUrl = this.UploadToBlob(logEventPrm);
                 logEvent = AuditEventPayload.AuditEventMessageTransformation(logEventPrm, blobUrl);
             }
 
-            this.PushToEventhub(logEvent);
+            this.PushToEventHub(logEvent);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             return blobUrl;
         }
 
-        private void PushToEventhub(LogEvent logEvent)
+        private void PushToEventHub(LogEvent logEvent)
         {
             var eventHubData = this.azureEventhubServiceHelper.PrepareEventHubMessageContent(this.textFormatter, logEvent);
             this.azureEventhubServiceProvider.PostMessage(this.eventHubClient, eventHubData);

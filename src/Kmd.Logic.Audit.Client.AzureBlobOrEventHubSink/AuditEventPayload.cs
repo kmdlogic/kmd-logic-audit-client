@@ -47,14 +47,14 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <returns>New log event after message transformation</returns>
         public static LogEvent AuditEventMessageTransformation(LogEvent logEvent, string blobUrl)
         {
-            IList<LogEventProperty> properties = new List<LogEventProperty>();
+            var properties = new List<LogEventProperty>();
             foreach (var property in logEvent.Properties)
             {
-                LogEventProperty logEventProperty = new LogEventProperty(property.Key, property.Value);
+                var logEventProperty = new LogEventProperty(property.Key, property.Value);
                 properties.Add(logEventProperty);
             }
 
-            LogEvent newLogEvent = new LogEvent(
+            var newLogEvent = new LogEvent(
                 logEvent.Timestamp,
                 logEvent.Level,
                 logEvent.Exception,
