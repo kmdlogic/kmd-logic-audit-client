@@ -36,11 +36,14 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
         /// </summary>
         public string AuditEventTopic { get; set; } = "audit";
 
+        /// <summary>
+        /// Gets or sets if it is going to use enrich from logcontext
+        /// </summary>
         public bool? EnrichFromLogContext { get; set; }
 
         /// <summary>
         /// Gets or sets the event size limit which decides whether message will be pushed to blob and event hub or only event hub
         /// </summary>
-        public int EventSizeLimitinBytes { get; set; }
+        public int EventSizeLimitinBytes { get; set; } = 256 * 1024;
     }
 }
