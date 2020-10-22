@@ -4,7 +4,7 @@ image:
   - Visual Studio 2019
   - Ubuntu1804
 configuration: Release
-test: off
+test: false
 install:
   - ps: ./setup.ps1
 build_script:
@@ -16,6 +16,8 @@ for:
   matrix:
     only:
       - image: Ubuntu1804
+  install:
+  - sh setup.sh
   build_script:
   - dotnet --info
   - dotnet --list-sdks
