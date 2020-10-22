@@ -5,8 +5,12 @@ image:
   - Ubuntu1804
 configuration: Release
 test: off
+install:
+  - ps: ./setup.ps1
 build_script:
-- ps: ./build.ps1
+  - ps: dotnet --info
+  - ps: dotnet --list-sdks
+  - ps: ./build.ps1
 for:
 -
   matrix:
