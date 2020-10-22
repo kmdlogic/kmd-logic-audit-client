@@ -3,11 +3,11 @@ using Serilog;
 
 namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 {
-    internal class SerilogBlobLoggerAudit : IAudit
+    internal class SerilogCustomSinkLoggerAudit : IAudit
     {
         private readonly ILogger logger;
 
-        public SerilogBlobLoggerAudit(ILogger logger)
+        public SerilogCustomSinkLoggerAudit(ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -19,7 +19,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 
         public IAudit ForContext(string propertyName, object value, bool captureObjectStructure = false)
         {
-            return new SerilogBlobLoggerAudit(
+            return new SerilogCustomSinkLoggerAudit(
                 this.logger.ForContext(propertyName, value, destructureObjects: captureObjectStructure));
         }
     }
