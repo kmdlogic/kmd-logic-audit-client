@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditClient", "AuditClient\AuditClient.csproj", "{CDA43404-5015-47AB-822A-32F8354F3BC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDA43404-5015-47AB-822A-32F8354F3BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA43404-5015-47AB-822A-32F8354F3BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA43404-5015-47AB-822A-32F8354F3BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA43404-5015-47AB-822A-32F8354F3BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9081BF7-6DD7-4F9F-B758-E88D19799712}
+	EndGlobalSection
+EndGlobal
