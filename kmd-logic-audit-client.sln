@@ -18,12 +18,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
 		CHANGES.md = CHANGES.md
 		Directory.Build.props = Directory.Build.props
 		global.json = global.json
 		kmd-logic-audit-client.sln.DotSettings = kmd-logic-audit-client.sln.DotSettings
+		kmd-logic-icon.png = kmd-logic-icon.png
 		LICENSE = LICENSE
 		README.md = README.md
+		setup.ps1 = setup.ps1
+		setup.sh = setup.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{C26E8896-8D49-4B97-8A19-556F4EC3A357}"
@@ -162,6 +166,9 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1C4F4CFA-09FE-4CEE-AB0A-237CB52BD1A0} = {C928BF1D-6596-4F8F-AB5E-67308DA6D26B}
 		{48C1EB50-CEE5-4152-B162-E6FF18A85719} = {C928BF1D-6596-4F8F-AB5E-67308DA6D26B}
@@ -175,5 +182,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B6A42A3-6999-43F8-9F44-C64FC107FA47}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A26425E-4672-4E22-8415-29BE7A953DA1}
 	EndGlobalSection
 EndGlobal
