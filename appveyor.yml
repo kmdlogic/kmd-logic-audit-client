@@ -1,8 +1,8 @@
 version: '{build}'
 skip_tags: true
 image:
-  - Visual Studio 2017
-  - Ubuntu
+  - Visual Studio 2019
+  - Ubuntu1804
 configuration: Release
 test: off
 build_script:
@@ -11,7 +11,7 @@ for:
 -
   matrix:
     only:
-      - image: Ubuntu
+      - image: Ubuntu1804
   build_script:
   - dotnet --info
   - dotnet --list-sdks
