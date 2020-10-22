@@ -13,22 +13,22 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
         /// <summary>
         /// Gets or sets the Azure EventHubs connection string.
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string EventhubConnectionString { get; set; }
 
         /// <summary>
         /// Gets or sets the Azure Blob ConnectionString.
         /// </summary>
-        public string BlobConnectionString { get; set; }
+        public string StorageConnectionString { get; set; }
 
         /// <summary>
         /// Gets or sets the Azure Blob account name.
         /// </summary>
-        public string BlobAccountName { get; set; }
+        public string StorageAccountName { get; set; }
 
         /// <summary>
         /// Gets or sets the Azure Blob container name.
         /// </summary>
-        public string BlobContainerName { get; set; }
+        public string StorageContainerName { get; set; }
 
         /// <summary>
         /// Gets or sets the the topic where audit events are ingested on Azure EventHubs.
@@ -37,5 +37,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
         public string AuditEventTopic { get; set; } = "audit";
 
         public bool? EnrichFromLogContext { get; set; }
+
+        public int EventSizeLimit { get; set; }
     }
 }

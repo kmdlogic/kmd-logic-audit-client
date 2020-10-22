@@ -13,12 +13,11 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
     {
         public static LoggerConfiguration AzureBlobOrEventHub(
               this LoggerSinkConfiguration loggerConfiguration,
-              string connectionString,
-              string eventConnectionString,
+              string storageConnectionString,
+              string eventhubConnectionString,
               string eventHubName,
-              int eventSizeLimitInBytes = 256 * 1024,
+              int eventSizeLimitInBytes,
               string storageContainerName = null,
-            string storageBlobName = null,
               ITextFormatter formatter = null)
         {
             if (loggerConfiguration == null)
@@ -26,9 +25,9 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 throw new ArgumentNullException(nameof(loggerConfiguration));
             }
 
-            if (string.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(storageConnectionString))
             {
-                throw new ArgumentNullException(nameof(connectionString));
+                throw new ArgumentNullException(nameof(storageConnectionString));
             }
 
             if (formatter == null)
@@ -36,25 +35,25 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 throw new ArgumentNullException(nameof(formatter));
             }
 
-            if (string.IsNullOrWhiteSpace(eventConnectionString))
+            if (string.IsNullOrWhiteSpace(eventhubConnectionString))
             {
-                throw new ArgumentNullException("eventConnectionString");
+                throw new ArgumentNullException(nameof(eventhubConnectionString));
             }
 
             if (string.IsNullOrWhiteSpace(eventHubName))
             {
-                throw new ArgumentNullException("eventHubName");
+                throw new ArgumentNullException(nameof(eventHubName));
             }
 
-            var connectionstringBuilder = new EventHubsConnectionStringBuilder(eventConnectionString)
+            var eventhubConnectionstringBuilder = new EventHubsConnectionStringBuilder(eventhubConnectionString)
             {
                 EntityPath = eventHubName
             };
 
-            var eventHubclient = EventHubClient.CreateFromConnectionString(connectionstringBuilder.ToString());
+            var eventHubclient = EventHubClient.CreateFromConnectionString(eventhubConnectionstringBuilder.ToString());
 
-            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, formatter, eventHubclient, eventSizeLimitInBytes, storageContainerName, storageBlobName));
+            BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnectionString);
+            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, formatter, eventHubclient, eventSizeLimitInBytes, storageContainerName));
         }
     }
 }

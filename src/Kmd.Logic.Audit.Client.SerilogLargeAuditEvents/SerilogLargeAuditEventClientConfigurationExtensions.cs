@@ -18,7 +18,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                     .Enrich.WithProperty("_EventSource", config.EventSource)
                     .AuditTo.AzureEventHub(
                         formatter: new Serilog.Formatting.Compact.CompactJsonFormatter(),
-                        connectionString: config.ConnectionString,
+                        connectionString: config.EventhubConnectionString,
                         eventHubName: config.AuditEventTopic)
                 ;
 

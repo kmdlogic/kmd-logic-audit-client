@@ -44,6 +44,11 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 storageBlobName = "log";
             }
 
+            if (eventSizeLimit == 0)
+            {
+                eventSizeLimit = 256 * 1024;
+            }
+
             this.textFormatter = textFormatter;
             this.blobServiceClient = blobServiceClient;
             this.storageContainerName = storageContainerName;

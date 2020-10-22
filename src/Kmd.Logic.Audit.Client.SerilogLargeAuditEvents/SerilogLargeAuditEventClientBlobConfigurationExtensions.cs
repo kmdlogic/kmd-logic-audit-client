@@ -15,25 +15,16 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                 throw new ArgumentNullException(nameof(config));
             }
 
-            //var configBuilder = new LoggerConfiguration()
-            //        .Enrich.With(new EventIdEnricher())
-            //        .Enrich.With(new CreatedDateTimeEnricher())
-            //        .Enrich.WithProperty("_EventSource", config.EventSource)
-            //        .WriteTo.AzureBlobStorage(
-            //            connectionString: config.BlobConnectionString,
-            //            formatter: new Serilog.Formatting.Compact.CompactJsonFormatter(),
-            //            storageContainerName: config.BlobContainerName);
-
             var configBuilder = new LoggerConfiguration()
                     .Enrich.With(new EventIdEnricher())
                     .Enrich.With(new CreatedDateTimeEnricher())
                     .Enrich.WithProperty("_EventSource", config.EventSource)
                     .WriteTo.AzureBlobOrEventHub(
-                        connectionString: config.BlobConnectionString,
-                        storageContainerName: config.BlobContainerName,
-                        eventConnectionString: config.ConnectionString,
+                        storageConnectionString: config.StorageConnectionString,
+                        storageContainerName: config.StorageContainerName,
+                        eventhubConnectionString: config.EventhubConnectionString,
                         eventHubName: config.AuditEventTopic,
-                        eventSizeLimitInBytes: 10,
+                        eventSizeLimitInBytes: config.EventSizeLimit,
                         formatter: new Serilog.Formatting.Compact.CompactJsonFormatter());
 
             if (config.EnrichFromLogContext == true)
