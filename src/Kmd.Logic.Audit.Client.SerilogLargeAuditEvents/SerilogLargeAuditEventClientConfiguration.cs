@@ -38,6 +38,6 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 
         public bool? EnrichFromLogContext { get; set; }
 
-        public int EventSizeLimit { get; set; }
+        public int EventSizeLimitinBytes { get; set; }
     }
 }
