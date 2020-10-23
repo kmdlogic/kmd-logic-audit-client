@@ -9,7 +9,7 @@ using Serilog.Formatting;
 
 namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
-    public class AzureBlobOrEventHubSink : ILogEventSink
+    public class AzureBlobOrEventHubCustomSink : ILogEventSink
     {
         private readonly ITextFormatter textFormatter;
         private readonly BlobServiceClient blobServiceClient;
@@ -22,7 +22,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         private string storageBlobName;
         private int eventSizeLimit;
 
-        public AzureBlobOrEventHubSink(
+        public AzureBlobOrEventHubCustomSink(
             BlobServiceClient blobServiceClient,
             ITextFormatter textFormatter,
             EventHubClient eventHubClient,
@@ -90,6 +90,10 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             return blobUrl;
         }
 
+        /// <summary>
+        /// Push message to Event hub
+        /// </summary>
+        /// <param name="logEvent">Log event</param>
         private void PushToEventHub(LogEvent logEvent)
         {
             var eventHubData = this.azureEventhubServiceHelper.PrepareEventHubMessageContent(this.textFormatter, logEvent);

@@ -53,7 +53,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             var eventHubclient = EventHubClient.CreateFromConnectionString(eventhubConnectionstringBuilder.ToString());
 
             BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnectionString);
-            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, formatter, eventHubclient, eventSizeLimitInBytes, storageContainerName));
+            return loggerConfiguration.Sink(new AzureBlobOrEventHubCustomSink(blobServiceClient, formatter, eventHubclient, eventSizeLimitInBytes, storageContainerName));
         }
     }
 }

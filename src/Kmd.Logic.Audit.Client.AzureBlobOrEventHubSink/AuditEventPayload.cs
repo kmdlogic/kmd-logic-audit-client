@@ -58,7 +58,9 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 logEvent.Timestamp,
                 logEvent.Level,
                 logEvent.Exception,
+#pragma warning disable CA1305 // Specify IFormatProvider
                 new MessageTemplate(string.Format(AuditEventPayload.MessageTemplate, logEvent.Properties["_EventId"], blobUrl), logEvent.MessageTemplate.Tokens),
+#pragma warning restore CA1305 // Specify IFormatProvider
                 properties);
 
             return newLogEvent;

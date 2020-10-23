@@ -12,11 +12,11 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <summary>
         /// Uploads blob and return the blob url
         /// </summary>
-        /// <param name="blobServiceClient"></param>
-        /// <param name="blobContainerName"></param>
-        /// <param name="blobName"></param>
-        /// <param name="content"></param>
-        /// <returns></returns>
+        /// <param name="blobServiceClient">Blob service client</param>
+        /// <param name="blobContainerName">Container name</param>
+        /// <param name="blobName">Blob name</param>
+        /// <param name="content">Content to be uploaded</param>
+        /// <returns>Blob url</returns>
         public string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content)
         {
             // Get a reference to a blob
@@ -40,10 +40,10 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <summary>
         /// Check if container or blob exists or not and return a blob client object accordingly
         /// </summary>
-        /// <param name="blobServiceClient"></param>
-        /// <param name="blobContainerName"></param>
-        /// <param name="blobName"></param>
-        /// <returns></returns>
+        /// <param name="blobServiceClient">Blob service client</param>
+        /// <param name="blobContainerName">Container name</param>
+        /// <param name="blobName">Blob name</param>
+        /// <returns>Blob client</returns>
         private BlobClient GetBlobClient(BlobServiceClient blobServiceClient, string blobContainerName, string blobName)
         {
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
@@ -58,11 +58,12 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             var blobExistsClient = blobClient.Exists();
             if (blobExistsClient.Value)
             {
+#pragma warning disable CA1305 // Specify IFormatProvider
                 blobName = blobName + DateTime.Now.ToString();
+#pragma warning restore CA1305 // Specify IFormatProvider
             }
 
             return containerClient.GetBlobClient(blobName);
         }
-
     }
 }
