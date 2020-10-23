@@ -45,7 +45,9 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <param name="logEvent">Log event</param>
         /// <param name="blobUrl">Blob url in string</param>
         /// <returns>New log event after message transformation</returns>
+#pragma warning disable CA1054 // Uri parameters should not be strings
         public static LogEvent AuditEventMessageTransformation(LogEvent logEvent, string blobUrl)
+#pragma warning restore CA1054 // Uri parameters should not be strings
         {
             var properties = new List<LogEventProperty>();
             foreach (var property in logEvent.Properties)
