@@ -11,39 +11,29 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public class AzureBlobOrEventHubCustomSink : ILogEventSink
     {
-        private readonly ITextFormatter textFormatter;
         private readonly BlobServiceClient blobServiceClient;
+        private readonly ITextFormatter textFormatter;
+        private readonly EventHubClient eventHubClient;
+        private readonly int eventSizeLimit;
+        private readonly string storageContainerName;
         private readonly IAzureBlobServiceHelper azureBlobServiceHelper;
         private readonly IAzureBlobServiceProvider azureBlobServiceProvider;
-        private readonly string storageContainerName;
-        private readonly EventHubClient eventHubClient;
         private readonly IAzureEventHubServiceHelper azureEventhubServiceHelper;
         private readonly IAzureEventHubServiceProvider azureEventhubServiceProvider;
         private string storageBlobName;
-        private int eventSizeLimit;
 
         public AzureBlobOrEventHubCustomSink(
             BlobServiceClient blobServiceClient,
             ITextFormatter textFormatter,
             EventHubClient eventHubClient,
-            int eventSizeLimit,
-            string storageContainerName = null,
-            string storageBlobName = null,
+            int eventSizeLimit = 256 * 1024,
+            string storageContainerName = "logs",
+            string storageBlobName = "log",
             IAzureBlobServiceHelper azureBlobServiceHelper = null,
             IAzureBlobServiceProvider azureBlobServiceProvider = null,
             IAzureEventHubServiceHelper azureEventhubServiceHelper = null,
             IAzureEventHubServiceProvider azureEventhubServiceProvider = null)
         {
-            if (string.IsNullOrEmpty(storageContainerName))
-            {
-                storageContainerName = "logs";
-            }
-
-            if (string.IsNullOrEmpty(storageBlobName))
-            {
-                storageBlobName = "log";
-            }
-
             this.textFormatter = textFormatter;
             this.blobServiceClient = blobServiceClient;
             this.storageContainerName = storageContainerName;

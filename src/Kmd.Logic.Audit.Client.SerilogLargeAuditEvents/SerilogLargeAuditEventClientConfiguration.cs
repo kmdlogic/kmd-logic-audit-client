@@ -28,7 +28,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
         /// <summary>
         /// Gets or sets the Azure Blob container name.
         /// </summary>
-        public string StorageContainerName { get; set; }
+        public string StorageContainerName { get; set; } = "logs";
 
         /// <summary>
         /// Gets or sets the the topic where audit events are ingested on Azure EventHubs.
