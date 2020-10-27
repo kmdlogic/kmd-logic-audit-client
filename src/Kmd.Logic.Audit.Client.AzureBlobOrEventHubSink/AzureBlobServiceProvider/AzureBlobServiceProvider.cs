@@ -5,9 +5,10 @@ using Azure.Storage.Blobs;
 
 namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
-    public class AzureBlobServiceProvider : IAzureBlobServiceProvider
+    public static class AzureBlobServiceProvider
     {
         public const string PathDivider = "/";
+
         /// <summary>
         /// Uploads blob and return the blob url
         /// </summary>
@@ -16,10 +17,10 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <param name="eventId">Event id from log context</param>
         /// <param name="content">Content to be uploaded</param>
         /// <returns>Blob url</returns>
-        public string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string eventId, string content)
+        public static string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string eventId, string content)
         {
             // Get a reference to a blob
-            var blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, eventId);
+            var blobClient = GetBlobClient(blobServiceClient, blobContainerName, eventId);
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
             {
                 try
@@ -43,7 +44,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <param name="blobContainerName">Container name</param>
         /// <param name="eventId">Event id from log context</param>
         /// <returns>Blob client</returns>
-        private BlobClient GetBlobClient(BlobServiceClient blobServiceClient, string blobContainerName, string eventId)
+        private static BlobClient GetBlobClient(BlobServiceClient blobServiceClient, string blobContainerName, string eventId)
         {
             var dt = DateTimeOffset.UtcNow;
             var containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);

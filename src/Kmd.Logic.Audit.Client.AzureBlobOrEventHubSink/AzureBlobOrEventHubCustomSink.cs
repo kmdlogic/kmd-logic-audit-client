@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using System;
+using Azure.Storage.Blobs;
 using Microsoft.Azure.EventHubs;
 using Serilog.Core;
 using Serilog.Events;
@@ -13,29 +14,17 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         private readonly EventHubClient eventHubClient;
         private readonly int eventSizeLimit;
         private readonly string storageContainerName;
-        private readonly IAzureBlobServiceHelper azureBlobServiceHelper;
-        private readonly IAzureBlobServiceProvider azureBlobServiceProvider;
-        private readonly IAzureEventHubServiceHelper azureEventhubServiceHelper;
-        private readonly IAzureEventHubServiceProvider azureEventhubServiceProvider;
 
         public AzureBlobOrEventHubCustomSink(
             BlobServiceClient blobServiceClient,
             ITextFormatter textFormatter,
             EventHubClient eventHubClient,
             int eventSizeLimit = 256 * 1024,
-            string storageContainerName = "logs",
-            IAzureBlobServiceHelper azureBlobServiceHelper = null,
-            IAzureBlobServiceProvider azureBlobServiceProvider = null,
-            IAzureEventHubServiceHelper azureEventhubServiceHelper = null,
-            IAzureEventHubServiceProvider azureEventhubServiceProvider = null)
+            string storageContainerName = "logs")
         {
             this.textFormatter = textFormatter;
             this.blobServiceClient = blobServiceClient;
             this.storageContainerName = storageContainerName;
-            this.azureBlobServiceHelper = azureBlobServiceHelper ?? new AzureBlobServiceHelper();
-            this.azureBlobServiceProvider = azureBlobServiceProvider ?? new AzureBlobServiceProvider();
-            this.azureEventhubServiceHelper = azureEventhubServiceHelper ?? new AzureEventHubServiceHelper();
-            this.azureEventhubServiceProvider = azureEventhubServiceProvider ?? new AzureEventHubServiceProvider();
             this.eventHubClient = eventHubClient;
             this.eventSizeLimit = eventSizeLimit;
         }
@@ -60,7 +49,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <returns>blob url</returns>
         private string UploadToBlob(LogEvent logEvent)
         {
-            var content = this.azureBlobServiceHelper.PrepareBlobContentForUpload(this.textFormatter, logEvent);
+            var content = AzureBlobServiceHelper.PrepareBlobContentForUpload(this.textFormatter, logEvent);
             var eventId = string.Empty;
 
             // Get Event Id value and use it as blob name
@@ -71,7 +60,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 eventId = eventIdValue.ToString();
             }
 
-            var blobUrl = this.azureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, eventId, content);
+            var blobUrl = AzureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, eventId, content);
             return blobUrl;
         }
 
@@ -81,8 +70,8 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <param name="logEvent">Log event</param>
         private void PushToEventHub(LogEvent logEvent)
         {
-            var eventHubData = this.azureEventhubServiceHelper.PrepareEventHubMessageContent(this.textFormatter, logEvent);
-            this.azureEventhubServiceProvider.PostMessage(this.eventHubClient, eventHubData);
+            var eventHubData = AzureEventHubServiceHelper.PrepareEventHubMessageContent(this.textFormatter, logEvent);
+            this.eventHubClient.SendAsync(eventHubData, Guid.NewGuid().ToString()).GetAwaiter().GetResult();
         }
     }
 }

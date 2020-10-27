@@ -5,9 +5,9 @@ using Serilog.Formatting;
 
 namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
-    public class AzureBlobServiceHelper : IAzureBlobServiceHelper
+    public static class AzureBlobServiceHelper
     {
-        public string PrepareBlobContentForUpload(ITextFormatter textFormatter, LogEvent logEvent)
+        public static string PrepareBlobContentForUpload(ITextFormatter textFormatter, LogEvent logEvent)
         {
             if (textFormatter == null)
             {
