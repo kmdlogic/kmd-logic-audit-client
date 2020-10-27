@@ -7,18 +7,19 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
     public class AzureBlobServiceProvider : IAzureBlobServiceProvider
     {
+        public const string PathDivider = "/";
         /// <summary>
         /// Uploads blob and return the blob url
         /// </summary>
         /// <param name="blobServiceClient">Blob service client</param>
         /// <param name="blobContainerName">Container name</param>
-        /// <param name="blobName">Blob name</param>
+        /// <param name="eventId">Event id from log context</param>
         /// <param name="content">Content to be uploaded</param>
         /// <returns>Blob url</returns>
-        public string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content)
+        public string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string eventId, string content)
         {
             // Get a reference to a blob
-            var blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, blobName);
+            var blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, eventId);
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
             {
                 try
@@ -40,28 +41,18 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// </summary>
         /// <param name="blobServiceClient">Blob service client</param>
         /// <param name="blobContainerName">Container name</param>
-        /// <param name="blobName">Blob name</param>
+        /// <param name="eventId">Event id from log context</param>
         /// <returns>Blob client</returns>
-        private BlobClient GetBlobClient(BlobServiceClient blobServiceClient, string blobContainerName, string blobName)
+        private BlobClient GetBlobClient(BlobServiceClient blobServiceClient, string blobContainerName, string eventId)
         {
+            var dt = DateTimeOffset.UtcNow;
             var containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
-            var containerExistsClient = containerClient.Exists();
-            if (!containerExistsClient.Value)
-            {
-                containerClient = blobServiceClient.CreateBlobContainer(blobContainerName);
-            }
+            containerClient.CreateIfNotExists();
 
-            // Check if blob with same name already exists, if exists then append the UTC DateTime to the blob name to avoid exception
-            var blobClient = containerClient.GetBlobClient(blobName);
-            var blobExistsClient = blobClient.Exists();
-            if (blobExistsClient.Value)
-            {
-#pragma warning disable CA1305 // Specify IFormatProvider
-                blobName = blobName + DateTime.Now.ToString();
-#pragma warning restore CA1305 // Specify IFormatProvider
-            }
-
-            return containerClient.GetBlobClient(blobName);
+            // If event id is empty then create a new guid. This scenario is remotely likely to happen
+            eventId = eventId ?? Guid.NewGuid().ToString();
+            eventId = $"{dt:yyyy}{PathDivider}{dt:MM}{PathDivider}{dt:dd}{PathDivider}{dt:yyyyMMdd_HHMM}_{eventId}.log";
+            return containerClient.GetBlobClient(eventId);
         }
     }
 }

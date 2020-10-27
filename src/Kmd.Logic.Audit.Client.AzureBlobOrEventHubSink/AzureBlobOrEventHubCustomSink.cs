@@ -61,17 +61,17 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         private string UploadToBlob(LogEvent logEvent)
         {
             var content = this.azureBlobServiceHelper.PrepareBlobContentForUpload(this.textFormatter, logEvent);
-            var blobName = string.Empty;
+            var eventId = string.Empty;
 
             // Get Event Id value and use it as blob name
             LogEventPropertyValue eventIdValue;
             logEvent.Properties.TryGetValue("_EventId", out eventIdValue);
             if (eventIdValue != null)
             {
-                blobName = eventIdValue.ToString();
+                eventId = eventIdValue.ToString();
             }
 
-            var blobUrl = this.azureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, blobName, content);
+            var blobUrl = this.azureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, eventId, content);
             return blobUrl;
         }
 
