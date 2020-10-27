@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Serilog.Events;
 using Serilog.Formatting;
 
@@ -23,7 +21,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 
             string content;
 
-            using (StringWriter tempStringWriter = new StringWriter())
+            using (var tempStringWriter = new StringWriter())
             {
                 try
                 {

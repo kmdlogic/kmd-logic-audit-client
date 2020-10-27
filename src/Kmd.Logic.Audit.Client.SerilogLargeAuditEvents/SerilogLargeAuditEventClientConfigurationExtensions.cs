@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink;
 using Serilog;
 

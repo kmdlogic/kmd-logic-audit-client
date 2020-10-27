@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 
 namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
@@ -20,8 +18,8 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         public string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string blobName, string content)
         {
             // Get a reference to a blob
-            BlobClient blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, blobName);
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
+            var blobClient = this.GetBlobClient(blobServiceClient, blobContainerName, blobName);
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
             {
                 try
                 {
@@ -46,7 +44,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <returns>Blob client</returns>
         private BlobClient GetBlobClient(BlobServiceClient blobServiceClient, string blobContainerName, string blobName)
         {
-            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
+            var containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
             var containerExistsClient = containerClient.Exists();
             if (!containerExistsClient.Value)
             {
@@ -54,7 +52,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             }
 
             // Check if blob with same name already exists, if exists then append the UTC DateTime to the blob name to avoid exception
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+            var blobClient = containerClient.GetBlobClient(blobName);
             var blobExistsClient = blobClient.Exists();
             if (blobExistsClient.Value)
             {

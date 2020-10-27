@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Azure.Storage.Blobs;
 using Microsoft.Azure.EventHubs;
 using Serilog;
@@ -52,7 +50,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 
             var eventHubclient = EventHubClient.CreateFromConnectionString(eventhubConnectionstringBuilder.ToString());
 
-            BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnectionString);
+            var blobServiceClient = new BlobServiceClient(storageConnectionString);
             return loggerConfiguration.Sink(new AzureBlobOrEventHubCustomSink(blobServiceClient, formatter, eventHubclient, eventSizeLimitInBytes, storageContainerName));
         }
     }

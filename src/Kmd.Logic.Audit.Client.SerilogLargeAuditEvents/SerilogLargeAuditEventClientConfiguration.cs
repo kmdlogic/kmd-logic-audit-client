@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
+﻿namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 {
     public class SerilogLargeAuditEventClientConfiguration
     {
