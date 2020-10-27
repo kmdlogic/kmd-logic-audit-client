@@ -20,7 +20,6 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         private readonly IAzureBlobServiceProvider azureBlobServiceProvider;
         private readonly IAzureEventHubServiceHelper azureEventhubServiceHelper;
         private readonly IAzureEventHubServiceProvider azureEventhubServiceProvider;
-        private string storageBlobName;
 
         public AzureBlobOrEventHubCustomSink(
             BlobServiceClient blobServiceClient,
@@ -28,7 +27,6 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             EventHubClient eventHubClient,
             int eventSizeLimit = 256 * 1024,
             string storageContainerName = "logs",
-            string storageBlobName = "log",
             IAzureBlobServiceHelper azureBlobServiceHelper = null,
             IAzureBlobServiceProvider azureBlobServiceProvider = null,
             IAzureEventHubServiceHelper azureEventhubServiceHelper = null,
@@ -37,7 +35,6 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             this.textFormatter = textFormatter;
             this.blobServiceClient = blobServiceClient;
             this.storageContainerName = storageContainerName;
-            this.storageBlobName = storageBlobName;
             this.azureBlobServiceHelper = azureBlobServiceHelper ?? new AzureBlobServiceHelper();
             this.azureBlobServiceProvider = azureBlobServiceProvider ?? new AzureBlobServiceProvider();
             this.azureEventhubServiceHelper = azureEventhubServiceHelper ?? new AzureEventHubServiceHelper();
@@ -67,16 +64,17 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         private string UploadToBlob(LogEvent logEvent)
         {
             var content = this.azureBlobServiceHelper.PrepareBlobContentForUpload(this.textFormatter, logEvent);
+            var blobName = string.Empty;
 
             // Get Event Id value and use it as blob name
             LogEventPropertyValue eventIdValue;
             logEvent.Properties.TryGetValue("_EventId", out eventIdValue);
             if (eventIdValue != null)
             {
-                this.storageBlobName = eventIdValue.ToString();
+                blobName = eventIdValue.ToString();
             }
 
-            var blobUrl = this.azureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, this.storageBlobName, content);
+            var blobUrl = this.azureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, blobName, content);
             return blobUrl;
         }
 
