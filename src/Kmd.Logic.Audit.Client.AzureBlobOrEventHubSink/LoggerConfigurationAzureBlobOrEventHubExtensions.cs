@@ -43,12 +43,12 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 throw new ArgumentNullException(nameof(eventHubName));
             }
 
-            var eventhubConnectionstringBuilder = new EventHubsConnectionStringBuilder(eventHubConnectionString)
+            var eventHubConnectionstringBuilder = new EventHubsConnectionStringBuilder(eventHubConnectionString)
             {
                 EntityPath = eventHubName
             };
 
-            var eventHubclient = EventHubClient.CreateFromConnectionString(eventhubConnectionstringBuilder.ToString());
+            var eventHubclient = EventHubClient.CreateFromConnectionString(eventHubConnectionstringBuilder.ToString());
 
             var blobServiceClient = new BlobServiceClient(storageConnectionString);
 
