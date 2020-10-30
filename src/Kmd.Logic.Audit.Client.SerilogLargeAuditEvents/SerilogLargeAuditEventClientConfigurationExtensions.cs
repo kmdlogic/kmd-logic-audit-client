@@ -20,7 +20,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
                     .WriteTo.AzureBlobOrEventHub(
                         storageConnectionString: config.StorageConnectionString,
                         storageContainerName: config.StorageContainerName,
-                        eventhubConnectionString: config.EventhubConnectionString,
+                        eventHubConnectionString: config.EventhubConnectionString,
                         eventHubName: config.AuditEventTopic,
                         eventSizeLimitInBytes: config.EventSizeLimitinBytes,
                         formatter: new Serilog.Formatting.Compact.CompactJsonFormatter());

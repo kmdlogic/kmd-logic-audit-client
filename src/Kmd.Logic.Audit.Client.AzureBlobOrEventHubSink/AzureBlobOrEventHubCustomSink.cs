@@ -10,15 +10,15 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
     public class AzureBlobOrEventHubCustomSink : ILogEventSink
     {
         private readonly BlobServiceClient blobServiceClient;
-        private readonly ITextFormatter textFormatter;
         private readonly EventHubClient eventHubClient;
+        private readonly ITextFormatter textFormatter;
         private readonly int eventSizeLimit;
         private readonly string storageContainerName;
 
         public AzureBlobOrEventHubCustomSink(
             BlobServiceClient blobServiceClient,
-            ITextFormatter textFormatter,
             EventHubClient eventHubClient,
+             ITextFormatter textFormatter,
             int eventSizeLimit = 256 * 1024,
             string storageContainerName = "logs")
         {
@@ -29,14 +29,13 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             this.eventSizeLimit = eventSizeLimit;
         }
 
-        public void Emit(LogEvent logEventPrm)
+        public void Emit(LogEvent logEvent)
         {
             var blobUrl = string.Empty;
-            var logEvent = logEventPrm;
-            if (AuditEventPayload.DoesAuditEventPayloadExceedLimit(this.textFormatter, logEventPrm, this.eventSizeLimit))
+            if (AuditEventPayload.DoesAuditEventPayloadExceedLimit(this.textFormatter, logEvent, this.eventSizeLimit))
             {
-                blobUrl = this.UploadToBlob(logEventPrm);
-                logEvent = AuditEventPayload.AuditEventMessageTransformation(logEventPrm, blobUrl);
+                blobUrl = this.UploadToBlob(logEvent);
+                logEvent = AuditEventPayload.AuditEventMessageTransformation(logEvent, blobUrl);
             }
 
             this.PushToEventHub(logEvent);
@@ -53,8 +52,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             var eventId = string.Empty;
 
             // Get Event Id value and use it as blob name
-            LogEventPropertyValue eventIdValue;
-            logEvent.Properties.TryGetValue("_EventId", out eventIdValue);
+            logEvent.Properties.TryGetValue("_EventId", out var eventIdValue);
             if (eventIdValue != null)
             {
                 eventId = eventIdValue.ToString();

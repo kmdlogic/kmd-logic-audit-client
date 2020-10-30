@@ -12,7 +12,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         public static LoggerConfiguration AzureBlobOrEventHub(
               this LoggerSinkConfiguration loggerConfiguration,
               string storageConnectionString,
-              string eventhubConnectionString,
+              string eventHubConnectionString,
               string eventHubName,
               int eventSizeLimitInBytes,
               string storageContainerName = null,
@@ -33,9 +33,9 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 throw new ArgumentNullException(nameof(formatter));
             }
 
-            if (string.IsNullOrWhiteSpace(eventhubConnectionString))
+            if (string.IsNullOrWhiteSpace(eventHubConnectionString))
             {
-                throw new ArgumentNullException(nameof(eventhubConnectionString));
+                throw new ArgumentNullException(nameof(eventHubConnectionString));
             }
 
             if (string.IsNullOrWhiteSpace(eventHubName))
@@ -43,7 +43,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 throw new ArgumentNullException(nameof(eventHubName));
             }
 
-            var eventhubConnectionstringBuilder = new EventHubsConnectionStringBuilder(eventhubConnectionString)
+            var eventhubConnectionstringBuilder = new EventHubsConnectionStringBuilder(eventHubConnectionString)
             {
                 EntityPath = eventHubName
             };
@@ -51,7 +51,8 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             var eventHubclient = EventHubClient.CreateFromConnectionString(eventhubConnectionstringBuilder.ToString());
 
             var blobServiceClient = new BlobServiceClient(storageConnectionString);
-            return loggerConfiguration.Sink(new AzureBlobOrEventHubCustomSink(blobServiceClient, formatter, eventHubclient, eventSizeLimitInBytes, storageContainerName));
+
+            return loggerConfiguration.Sink(new AzureBlobOrEventHubCustomSink(blobServiceClient, eventHubclient, formatter, eventSizeLimitInBytes, storageContainerName));
         }
     }
 }
