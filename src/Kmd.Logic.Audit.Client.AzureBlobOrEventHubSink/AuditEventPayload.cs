@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using Serilog.Events;
@@ -41,11 +43,9 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// Transform the logevent to provide different message with blob url property added
         /// </summary>
         /// <param name="logEvent">Log event</param>
-        /// <param name="blobUrl">Blob url in string</param>
+        /// <param name="blobUrl">Blob url</param>
         /// <returns>New log event after message transformation</returns>
-#pragma warning disable CA1054 // Uri parameters should not be strings
-        public static LogEvent AuditEventMessageTransformation(LogEvent logEvent, string blobUrl)
-#pragma warning restore CA1054 // Uri parameters should not be strings
+        public static LogEvent AuditEventMessageTransformation(LogEvent logEvent, Uri blobUrl)
         {
             var properties = new List<LogEventProperty>();
             foreach (var property in logEvent.Properties)
@@ -58,9 +58,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 logEvent.Timestamp,
                 logEvent.Level,
                 logEvent.Exception,
-#pragma warning disable CA1305 // Specify IFormatProvider
-                new MessageTemplate(string.Format(AuditEventPayload.MessageTemplate, logEvent.Properties["_EventId"], blobUrl), logEvent.MessageTemplate.Tokens),
-#pragma warning restore CA1305 // Specify IFormatProvider
+                new MessageTemplate(string.Format(CultureInfo.InvariantCulture, MessageTemplate, logEvent.Properties["_EventId"], blobUrl), logEvent.MessageTemplate.Tokens),
                 properties);
 
             return newLogEvent;

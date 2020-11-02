@@ -4,6 +4,7 @@ using Microsoft.Azure.EventHubs;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting;
+using Serilog.Sinks.AzureEventHub;
 
 namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 {
@@ -14,6 +15,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         private readonly ITextFormatter textFormatter;
         private readonly int eventSizeLimit;
         private readonly string storageContainerName;
+        private readonly AzureEventHubSink azureEventHubSink;
 
         public AzureBlobOrEventHubCustomSink(
             BlobServiceClient blobServiceClient,
@@ -27,18 +29,18 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             this.storageContainerName = storageContainerName;
             this.eventHubClient = eventHubClient;
             this.eventSizeLimit = eventSizeLimit;
+            this.azureEventHubSink = new AzureEventHubSink(eventHubClient, textFormatter);
         }
 
         public void Emit(LogEvent logEvent)
         {
-            var blobUrl = string.Empty;
             if (AuditEventPayload.DoesAuditEventPayloadExceedLimit(this.textFormatter, logEvent, this.eventSizeLimit))
             {
-                blobUrl = this.UploadToBlob(logEvent);
+                var blobUrl = this.UploadToBlob(logEvent);
                 logEvent = AuditEventPayload.AuditEventMessageTransformation(logEvent, blobUrl);
             }
 
-            this.PushToEventHub(logEvent);
+            this.azureEventHubSink.Emit(logEvent);
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// </summary>
         /// <param name="logEvent">Log event</param>
         /// <returns>blob url</returns>
-        private string UploadToBlob(LogEvent logEvent)
+        private Uri UploadToBlob(LogEvent logEvent)
         {
             var content = AzureBlobServiceHelper.PrepareBlobContentForUpload(this.textFormatter, logEvent);
             var eventId = string.Empty;
@@ -58,18 +60,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 eventId = eventIdValue.ToString();
             }
 
-            var blobUrl = AzureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, eventId, content);
-            return blobUrl;
-        }
-
-        /// <summary>
-        /// Push message to Event hub
-        /// </summary>
-        /// <param name="logEvent">Log event</param>
-        private void PushToEventHub(LogEvent logEvent)
-        {
-            var eventHubData = AzureEventHubServiceHelper.PrepareEventHubMessageContent(this.textFormatter, logEvent);
-            this.eventHubClient.SendAsync(eventHubData, Guid.NewGuid().ToString()).GetAwaiter().GetResult();
+            return AzureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, eventId, content);
         }
     }
 }

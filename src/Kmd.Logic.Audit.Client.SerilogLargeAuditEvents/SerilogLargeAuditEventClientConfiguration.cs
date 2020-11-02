@@ -11,7 +11,7 @@
         /// <summary>
         /// Gets or sets the Azure EventHubs connection string.
         /// </summary>
-        public string EventhubConnectionString { get; set; }
+        public string EventHubConnectionString { get; set; }
 
         /// <summary>
         /// Gets or sets the Azure Blob ConnectionString.

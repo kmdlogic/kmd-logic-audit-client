@@ -17,7 +17,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         /// <param name="eventId">Event id from log context</param>
         /// <param name="content">Content to be uploaded</param>
         /// <returns>Blob url</returns>
-        public static string UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string eventId, string content)
+        public static Uri UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string eventId, string content)
         {
             // Get a reference to a blob
             var blobClient = GetBlobClient(blobServiceClient, blobContainerName, eventId);
@@ -26,13 +26,12 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
                 try
                 {
                     blobClient.Upload(stream);
-                    var blobUrl = blobClient.Uri.ToString();
-                    return blobUrl;
+                    return blobClient.Uri;
                 }
                 catch (Exception ex)
                 {
                     Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown while trying to upload blob.");
-                    return string.Empty;
+                    return null;
                 }
             }
         }
