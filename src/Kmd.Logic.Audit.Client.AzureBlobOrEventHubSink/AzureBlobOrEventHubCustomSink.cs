@@ -11,7 +11,6 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
     public class AzureBlobOrEventHubCustomSink : ILogEventSink
     {
         private readonly BlobServiceClient blobServiceClient;
-        private readonly EventHubClient eventHubClient;
         private readonly ITextFormatter textFormatter;
         private readonly int eventSizeLimit;
         private readonly string storageContainerName;
@@ -20,14 +19,13 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         public AzureBlobOrEventHubCustomSink(
             BlobServiceClient blobServiceClient,
             EventHubClient eventHubClient,
-             ITextFormatter textFormatter,
+            ITextFormatter textFormatter,
             int eventSizeLimit = 256 * 1024,
             string storageContainerName = "logs")
         {
             this.textFormatter = textFormatter;
             this.blobServiceClient = blobServiceClient;
             this.storageContainerName = storageContainerName;
-            this.eventHubClient = eventHubClient;
             this.eventSizeLimit = eventSizeLimit;
             this.azureEventHubSink = new AzureEventHubSink(eventHubClient, textFormatter);
         }

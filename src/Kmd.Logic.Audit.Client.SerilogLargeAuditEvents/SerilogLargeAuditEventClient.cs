@@ -1,4 +1,5 @@
 ﻿using System;
+using Azure.Storage.Blobs;
 using Serilog.Core;
 
 namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
@@ -11,7 +12,14 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
 
         public SerilogLargeAuditEventClient(SerilogLargeAuditEventClientConfiguration config)
         {
-            this.customSinkLogger = config.CreateAzureBlobOrEventHubConfiguration().CreateLogger();
+            this.customSinkLogger = config.CreateDefaultAzureBlobOrEventHubConfiguration().CreateLogger();
+            this.disposeLogger = true;
+            this.auditToCustomSink = new SerilogCustomSinkLoggerAudit(this.customSinkLogger);
+        }
+
+        public SerilogLargeAuditEventClient(SerilogLargeAuditEventClientConfiguration config, BlobServiceClient blobServiceClient)
+        {
+            this.customSinkLogger = config.CreateAzureBlobOrEventHubConfiguration(blobServiceClient).CreateLogger();
             this.disposeLogger = true;
             this.auditToCustomSink = new SerilogCustomSinkLoggerAudit(this.customSinkLogger);
         }
