@@ -50,8 +50,11 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             var properties = new List<LogEventProperty>();
             foreach (var property in logEvent.Properties)
             {
-                var logEventProperty = new LogEventProperty(property.Key, property.Value);
-                properties.Add(logEventProperty);
+                if (property.Key == "_EventId" || property.Key == "_CreatedDateTime" || property.Key == "_EventSource")
+                {
+                    var logEventProperty = new LogEventProperty(property.Key, property.Value);
+                    properties.Add(logEventProperty);
+                }
             }
 
             var newLogEvent = new LogEvent(
