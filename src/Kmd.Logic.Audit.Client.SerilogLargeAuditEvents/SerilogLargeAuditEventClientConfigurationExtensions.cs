@@ -1,6 +1,6 @@
 ﻿using System;
 using Azure.Storage.Blobs;
-using Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink;
+using Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCustomSink;
 using Serilog;
 
 namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
@@ -17,7 +17,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
             var configBuilder = new LoggerConfiguration()
                     .Enrich.With(new EventIdEnricher())
                     .Enrich.With(new CreatedDateTimeEnricher())
-                    .Enrich.WithProperty("_EventSource", config.EventSource)
+                    .Enrich.WithProperty(Constants.EventSourceProperty, config.EventSource)
                     .WriteTo.AzureBlobOrEventHub(
                         storageConnectionString: config.StorageConnectionString,
                         storageContainerName: config.StorageContainerName,

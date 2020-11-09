@@ -8,7 +8,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
     {
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
-            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("_CreatedDateTime", DateTimeOffset.UtcNow));
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(Constants.CreatedDateTimePropertyEnricher, DateTimeOffset.UtcNow));
         }
     }
 }
