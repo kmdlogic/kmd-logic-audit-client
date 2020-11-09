@@ -39,13 +39,12 @@ foreach ($src in Get-ChildItem src/*) {
 
     & dotnet build -c Release --version-suffix=$buildSuffix
 
-    if(-Not ($src -clike '*Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink*')) {
-        if($suffix) {
-            & dotnet pack -c Release --no-build -o ..\..\artifacts --version-suffix=$suffix
-        } else {
-            & dotnet pack -c Release --no-build -o ..\..\artifacts
-        }
-    }
+    
+    if($suffix) {
+        & dotnet pack -c Release --no-build -o ..\..\artifacts --version-suffix=$suffix
+    } else {
+        & dotnet pack -c Release --no-build -o ..\..\artifacts
+    }    
     if($LASTEXITCODE -ne 0) { exit 1 }
 
     Pop-Location
