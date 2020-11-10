@@ -92,7 +92,6 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
                         {
                             var blockId = Convert.ToBase64String(Encoding.UTF8.GetBytes(counter.ToString("d3", CultureInfo.InvariantCulture)));
                             blockBlobClient.StageBlock(blockId, new MemoryStream(data));
-                            Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "Block {0} uploaded successfully.", counter.ToString("d3", CultureInfo.InvariantCulture)));
                             blockIds.Add(blockId);
                             counter++;
                         }
