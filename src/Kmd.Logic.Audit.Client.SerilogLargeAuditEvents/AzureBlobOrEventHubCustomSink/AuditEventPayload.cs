@@ -6,7 +6,7 @@ using System.Text;
 using Serilog.Events;
 using Serilog.Formatting;
 
-namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
+namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCustomSink
 {
     /// <summary>
     /// This class handles methods related to Audit event payload
@@ -50,7 +50,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
             var properties = new List<LogEventProperty>();
             foreach (var property in logEvent.Properties)
             {
-                if (property.Key == "_EventId" || property.Key == "_CreatedDateTime" || property.Key == "_EventSource")
+                if (property.Key == Constants.EventIdPropertyEnricher || property.Key == Constants.CreatedDateTimePropertyEnricher || property.Key == Constants.EventSourceProperty)
                 {
                     var logEventProperty = new LogEventProperty(property.Key, property.Value);
                     properties.Add(logEventProperty);

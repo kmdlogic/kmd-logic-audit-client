@@ -5,7 +5,7 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Formatting;
 
-namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
+namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCustomSink
 {
     public static class LoggerConfigurationAzureBlobOrEventHubExtensions
     {
@@ -52,7 +52,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 
             var blobServiceClient = new BlobServiceClient(storageConnectionString);
 
-            return loggerConfiguration.Sink(new AzureBlobOrEventHubCustomSink(blobServiceClient, eventHubclient, formatter, eventSizeLimitInBytes, storageContainerName));
+            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, eventHubclient, formatter, eventSizeLimitInBytes, storageContainerName));
         }
 
         public static LoggerConfiguration AzureBlobOrEventHub(
@@ -96,7 +96,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
 
             var eventHubclient = EventHubClient.CreateFromConnectionString(eventHubConnectionstringBuilder.ToString());
 
-            return loggerConfiguration.Sink(new AzureBlobOrEventHubCustomSink(blobServiceClient, eventHubclient, formatter, eventSizeLimitInBytes, storageContainerName));
+            return loggerConfiguration.Sink(new AzureBlobOrEventHubSink(blobServiceClient, eventHubclient, formatter, eventSizeLimitInBytes, storageContainerName));
         }
     }
 }

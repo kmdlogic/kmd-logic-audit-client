@@ -3,7 +3,7 @@ using System.IO;
 using Serilog.Events;
 using Serilog.Formatting;
 
-namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
+namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCustomSink
 {
     public static class AzureBlobServiceHelper
     {

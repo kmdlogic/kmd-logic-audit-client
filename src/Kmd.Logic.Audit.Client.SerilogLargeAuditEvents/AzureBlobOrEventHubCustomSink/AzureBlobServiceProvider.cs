@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using Azure.Storage.Blobs;
 
-namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
+namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCustomSink
 {
     public static class AzureBlobServiceProvider
     {

@@ -6,9 +6,9 @@ using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.AzureEventHub;
 
-namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
+namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCustomSink
 {
-    public class AzureBlobOrEventHubCustomSink : ILogEventSink
+    public class AzureBlobOrEventHubSink : ILogEventSink
     {
         private readonly BlobServiceClient blobServiceClient;
         private readonly ITextFormatter textFormatter;
@@ -16,7 +16,7 @@ namespace Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink
         private readonly string storageContainerName;
         private readonly AzureEventHubSink azureEventHubSink;
 
-        public AzureBlobOrEventHubCustomSink(
+        public AzureBlobOrEventHubSink(
             BlobServiceClient blobServiceClient,
             EventHubClient eventHubClient,
             ITextFormatter textFormatter,

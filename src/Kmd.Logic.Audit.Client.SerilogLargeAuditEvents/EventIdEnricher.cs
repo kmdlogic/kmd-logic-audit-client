@@ -8,7 +8,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents
     {
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
-            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("_EventId", Guid.NewGuid()));
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(Constants.EventIdPropertyEnricher, Guid.NewGuid()));
         }
     }
 }

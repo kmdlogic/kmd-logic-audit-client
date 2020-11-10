@@ -6,12 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0-preview.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+    <PackageReference Include="Serilog.Sinks.AzureEventHub" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink\Kmd.Logic.Audit.Client.AzureBlobOrEventHubSink.csproj" />
     <ProjectReference Include="..\Kmd.Logic.Audit.Client\Kmd.Logic.Audit.Client.csproj" />
   </ItemGroup>
 
