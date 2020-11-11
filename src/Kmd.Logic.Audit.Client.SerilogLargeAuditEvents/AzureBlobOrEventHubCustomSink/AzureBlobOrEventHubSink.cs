@@ -58,7 +58,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
                 eventId = eventIdValue.ToString();
             }
 
-            return AzureBlobServiceProvider.UploadBlob(this.blobServiceClient, this.storageContainerName, eventId, content);
+            return AzureBlobUploadManager.UploadBlob(this.blobServiceClient, this.storageContainerName, eventId, content);
         }
     }
 }

@@ -8,14 +8,14 @@ using Azure.Storage.Blobs.Specialized;
 
 namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCustomSink
 {
-    public static class AzureBlobServiceProvider
+    public static class AzureBlobUploadManager
     {
         public const string PathDivider = "/";
 
         /// <summary>
-        /// Considering 10 MB of minimum size for each block
+        /// Considering 4 MB of minimum size for each block
         /// </summary>
-        private const int BlockSize = 10 * 1024 * 1024;
+        private const int BlockSize = 4 * 1000 * 1000;
 
         /// <summary>
         /// Uploads blob and return the blob url
@@ -28,21 +28,13 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
         public static Uri UploadBlob(BlobServiceClient blobServiceClient, string blobContainerName, string eventId, string content)
         {
             var dt = DateTimeOffset.UtcNow;
-
-            // If event id is empty then create a new guid. This scenario is remotely likely to happen
             eventId = eventId ?? Guid.NewGuid().ToString();
-
-            // Audit event size
             var auditEventSize = Encoding.UTF8.GetByteCount(content);
-
-            // Form blob name
             var blobName = $"{dt:yyyy}{PathDivider}{dt:MM}{PathDivider}{dt:dd}{PathDivider}{dt:yyyyMMdd_HHMM}_{eventId}.log";
 
             // Get a reference to a blob
             var containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
             var blockBlobClient = containerClient.GetBlockBlobClient(blobName);
-
-            // Check if message size is greater than the minimum block size then divide the message into chunks
             if (auditEventSize > BlockSize)
             {
                 Serilog.Debugging.SelfLog.WriteLine($"Audit event with event id {eventId} of size {auditEventSize} bytes exceeding threshold, hence uploading blob in chunks.");
@@ -72,7 +64,7 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
             var blockBlobClient = containerClient.GetBlockBlobClient(eventId);
             int offset = 0;
             int counter = 0;
-            var blockIds = new List<string>();
+            var blockNumbers = new List<string>();
             var totalBytes = Encoding.UTF8.GetByteCount(content);
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
             {
@@ -84,14 +76,14 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
                     totalBytes -= dataRead;
                     if (dataRead > 0)
                     {
-                        var blockId = Convert.ToBase64String(Encoding.UTF8.GetBytes(counter.ToString("d3", CultureInfo.InvariantCulture)));
-                        blockBlobClient.StageBlock(blockId, new MemoryStream(data));
-                        blockIds.Add(blockId);
+                        var blockNumber = Convert.ToBase64String(Encoding.UTF8.GetBytes(counter.ToString("d3", CultureInfo.InvariantCulture)));
+                        blockBlobClient.StageBlock(blockNumber, new MemoryStream(data));
+                        blockNumbers.Add(blockNumber);
                         counter++;
                     }
                 }
                 while (totalBytes > 0);
-                blockBlobClient.CommitBlockList(blockIds);
+                blockBlobClient.CommitBlockList(blockNumbers);
             }
         }
     }
