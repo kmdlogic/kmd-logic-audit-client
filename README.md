@@ -75,6 +75,37 @@ We recommend developers use Seq locally to help ensure the audit event developme
 
 ![Sample Seq Output](./assets/seq-events-view.png)
 
+## Using custom sink for large audit events
+
+With increasing size in audit events large audit events couldn't be processed by `Kmd.Logic.Audit.Client.SerilogAzureEventHubs.SerilogAzureEventHubsAuditClient` implementation. As a solution to this we came up with a custom sink which based on the size of audit event will push the event to blob for large messages and keep the blob url in event hub. The default bytes limit is 256 KB which is customizable.
+
+To use the custom sink you need to use the `Kmd.Logic.Audit.Client.SerilogLargeAuditEvents` implementation.
+
+You need to create the client configuration of `Kmd.Logic.Audit.Client.SerilogLargeAuditEvents` where the connection properties of event hub and blob storage can be provided. The event size limit can also be customized here.
+
+```csharp
+var clientConfig = new Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.SerilogLargeAuditEventClientConfiguration
+    {
+        EventSource = {EventSource},
+        AuditEventTopic = {EventTopic},
+        EventHubConnectionString = {EventHubConnectionString},
+        EnrichFromLogContext = true,
+        StorageAccountName = {StorageAccountName},
+        StorageConnectionString = {StorageConnectionString},
+        StorageContainerName = {ContainerName},
+        EventSizeLimitinBytes = {EventSizeLimitinBytes}
+    };
+```
+
+After creating the client configuration create the `Kmd.Logic.Audit.Client.SerilogLargeAuditEvents` client.
+
+```csharp
+using (var audit = new Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.SerilogLargeAuditEventClient(clientConfig))
+{
+    // write your audit events here
+}
+```
+
 ## Using KMD Logic Audit as the destination of audit events
 
 Contact us at discover@kmdlogic.io for more information.
