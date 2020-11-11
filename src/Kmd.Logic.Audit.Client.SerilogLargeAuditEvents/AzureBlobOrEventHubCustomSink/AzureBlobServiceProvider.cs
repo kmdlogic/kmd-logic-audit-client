@@ -32,6 +32,9 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
             // If event id is empty then create a new guid. This scenario is remotely likely to happen
             eventId = eventId ?? Guid.NewGuid().ToString();
 
+            // Audit event size
+            var auditEventSize = Encoding.UTF8.GetByteCount(content);
+
             // Form blob name
             var blobName = $"{dt:yyyy}{PathDivider}{dt:MM}{PathDivider}{dt:dd}{PathDivider}{dt:yyyyMMdd_HHMM}_{eventId}.log";
 
@@ -40,8 +43,9 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
             var blockBlobClient = containerClient.GetBlockBlobClient(blobName);
 
             // Check if message size is greater than the minimum block size then divide the message into chunks
-            if (Encoding.UTF8.GetByteCount(content) > BlockSize)
+            if (auditEventSize > BlockSize)
             {
+                Serilog.Debugging.SelfLog.WriteLine($"Audit event with event id {eventId} of size {auditEventSize} bytes exceeding threshold, hence uploading blob in chunks.");
                 UploadBlobInChunk(blobServiceClient, blobContainerName, blobName, content);
                 return blockBlobClient.Uri;
             }
@@ -49,16 +53,8 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
             {
                 using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
                 {
-                    try
-                    {
-                        blockBlobClient.Upload(stream);
-                        return blockBlobClient.Uri;
-                    }
-                    catch (Exception ex)
-                    {
-                        Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown while trying to upload blob.");
-                        return null;
-                    }
+                    blockBlobClient.Upload(stream);
+                    return blockBlobClient.Uri;
                 }
             }
         }
@@ -78,31 +74,24 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
             int counter = 0;
             var blockIds = new List<string>();
             var totalBytes = Encoding.UTF8.GetByteCount(content);
-            try
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
             {
-                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
+                do
                 {
-                    do
+                    var dataToRead = Math.Min(totalBytes, BlockSize);
+                    byte[] data = new byte[dataToRead];
+                    var dataRead = stream.Read(data, offset, (int)dataToRead);
+                    totalBytes -= dataRead;
+                    if (dataRead > 0)
                     {
-                        var dataToRead = Math.Min(totalBytes, BlockSize);
-                        byte[] data = new byte[dataToRead];
-                        var dataRead = stream.Read(data, offset, (int)dataToRead);
-                        totalBytes -= dataRead;
-                        if (dataRead > 0)
-                        {
-                            var blockId = Convert.ToBase64String(Encoding.UTF8.GetBytes(counter.ToString("d3", CultureInfo.InvariantCulture)));
-                            blockBlobClient.StageBlock(blockId, new MemoryStream(data));
-                            blockIds.Add(blockId);
-                            counter++;
-                        }
+                        var blockId = Convert.ToBase64String(Encoding.UTF8.GetBytes(counter.ToString("d3", CultureInfo.InvariantCulture)));
+                        blockBlobClient.StageBlock(blockId, new MemoryStream(data));
+                        blockIds.Add(blockId);
+                        counter++;
                     }
-                    while (totalBytes > 0);
-                    blockBlobClient.CommitBlockList(blockIds);
                 }
-            }
-            catch (Exception ex)
-            {
-                Serilog.Debugging.SelfLog.WriteLine($"Exception {ex} thrown while trying to upload blob in chunks.");
+                while (totalBytes > 0);
+                blockBlobClient.CommitBlockList(blockIds);
             }
         }
     }
