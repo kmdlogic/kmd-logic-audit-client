@@ -38,7 +38,7 @@ namespace Kmd.Logic.Audit.Client.SampleLargeAuditEvents
 
             // Create data for audit event
             var events = new List<AuditEvent>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 var data = new AuditEvent();
                 events.Add(data);
@@ -51,11 +51,13 @@ namespace Kmd.Logic.Audit.Client.SampleLargeAuditEvents
                 var version = typeof(Program).Assembly.GetName().Version;
 
                 Console.WriteLine(
-                    "Sending {0} ({3} threads) audit events to {1} at {2}",
+                    "Sending {0} ({3} threads) audit events to {1} at {2} and larger events to {4} in {5} as well",
                     config.Ingestion.NumberOfEventsToSend,
                     clientConfig.AuditEventTopic,
-                     clientConfig.EventHubConnectionString,
-                    config.Ingestion.NumberOfThreads);
+                    clientConfig.EventHubConnectionString,
+                    config.Ingestion.NumberOfThreads,
+                    config.Ingestion.BlobContainerName,
+                    config.Ingestion.BlobAccountName);
 
                 var sw = System.Diagnostics.Stopwatch.StartNew();
                 var groupId = Guid.NewGuid();
