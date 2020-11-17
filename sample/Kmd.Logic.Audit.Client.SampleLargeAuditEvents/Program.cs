@@ -36,8 +36,9 @@ namespace Kmd.Logic.Audit.Client.SampleLargeAuditEvents
                 StorageContainerName = config.Ingestion.BlobContainerName
             };
 
+            // Create data for audit event
             var events = new List<AuditEvent>();
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 var data = new AuditEvent();
                 events.Add(data);
@@ -73,7 +74,7 @@ namespace Kmd.Logic.Audit.Client.SampleLargeAuditEvents
                         .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                         .Select(i =>
                         {
-                            audit.Write("Pre release testing with number {IterationNum} from {Application} v{Version} data {Data}", i, name, version, events);
+                            audit.Write("Sample audit event with {IterationNum} from {Application} v{Version} and data {Data}", i, name, version, events);
 
                             var numDividedBy10Or1 = config.Ingestion.NumberOfEventsToSend < 10
                                 ? 1
