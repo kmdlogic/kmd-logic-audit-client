@@ -34,11 +34,12 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
 
             // Get a reference to a blob
             var containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
+            containerClient.CreateIfNotExists();
             var blockBlobClient = containerClient.GetBlockBlobClient(blobName);
             if (auditEventSize > BlockSize)
             {
                 Serilog.Debugging.SelfLog.WriteLine($"Audit event with event id {eventId} of size {auditEventSize} bytes exceeding threshold, hence uploading blob in chunks.");
-                UploadBlobInChunk(blobServiceClient, blobContainerName, blobName, content);
+                UploadBlobInChunk(blockBlobClient, content);
                 return blockBlobClient.Uri;
             }
             else
@@ -54,14 +55,10 @@ namespace Kmd.Logic.Audit.Client.SerilogLargeAuditEvents.AzureBlobOrEventHubCust
         /// <summary>
         /// When blob size is more then upload blob in chunks
         /// </summary>
-        /// <param name="blobServiceClient">The blob service client</param>
-        /// <param name="blobContainerName">Container name</param>
-        /// <param name="eventId">Event id</param>
+        /// <param name="blockBlobClient">The blob service client</param>
         /// <param name="content">Blob content to be uploaded</param>
-        private static void UploadBlobInChunk(BlobServiceClient blobServiceClient, string blobContainerName, string eventId, string content)
+        private static void UploadBlobInChunk(BlockBlobClient blockBlobClient, string content)
         {
-            var containerClient = blobServiceClient.GetBlobContainerClient(blobContainerName);
-            var blockBlobClient = containerClient.GetBlockBlobClient(eventId);
             int offset = 0;
             int counter = 0;
             var blockNumbers = new List<string>();
