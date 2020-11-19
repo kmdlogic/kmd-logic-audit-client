@@ -71,7 +71,7 @@ using (var audit = SerilogSeqAuditClient.CreateCustomized(logger))
 
 The audit client implementation `Kmd.Logic.Audit.Client.SerilogAzureEventHubs.SerilogAzureEventHubsAuditClient` has limitation in terms of size of audit events. To overcome this we have come up with a custom sink which based on the size of audit event will push the event to blob for large messages and send the blob url to event hub. The default size(in bytes) limit is 256 KB which is customizable.
 
-To use the custom sink you need to use the `Kmd.Logic.Audit.Client.SerilogLargeAuditEvents` implementation.
+To use the custom sink you need to use the [Kmd.Logic.Audit.Client.SerilogLargeAuditEvents](https://www.nuget.org/packages/Kmd.Logic.Audit.Client.SerilogLargeAuditEvents/) implementation.
 
 You need to create the client configuration of `Kmd.Logic.Audit.Client.SerilogLargeAuditEvents` where the connection properties of event hub and blob storage can be provided. The blob will be owned by the user who is going to use the audit client. The event size limit can also be customized here.
 
