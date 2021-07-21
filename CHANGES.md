@@ -1,3 +1,7 @@
+2.0.0
+* Make client assemblies strongly named
+* Make client assemblies versioned
+
 1.4.0
 * Added custom sink to handle large messages (more than 256KB) which will push logs with size exceeding the threshold to a blob storage and send the respective blob url in eventhub sink. The threshold size (in bytes) can be configured. For messages size less than threshold it will behave like an eventhub sink.
 
